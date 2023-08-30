@@ -1,6 +1,8 @@
 import fitz_new
 import pytesseract
 from PIL import Image
+import cv2
+import numpy as np
 import io
 
 def pdf_to_image_stream(pdf_path):
@@ -19,7 +21,20 @@ def pdf_to_image_stream(pdf_path):
 
     pdf_document.close()
 
-pdf_path = '1.pdf'  # Replace with the path to your PDF file
+
+def pre_process_image(image):
+    """This function will pre-process a image with: cv2 & deskew
+    so it can be process by tesseract"""
+    img = np.array(image)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) #change color format from BGR to RGB
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #format image to gray scale
+    img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 5, 11) #to remove background
+    #cv2.imshow("hello", img)
+    #cv2.waitKey(5000)
+    #cv2.destroyAllWindows()
+    return img
+
+pdf_path = 'python exp1.pdf'  # Replace with the path to your PDF file
 
 # Configure Tesseract executable path (if needed)
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -27,9 +42,13 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 for image_data in pdf_to_image_stream(pdf_path):
     # Convert the image data stream to a PIL Image object
     image = Image.open(io.BytesIO(image_data))
+    image = pre_process_image(image)
 
     # Use Tesseract to extract text from the image
     extracted_text = pytesseract.image_to_string(image, lang='eng')
 
+
     # Do something with the extracted text
     print(extracted_text)
+
+
