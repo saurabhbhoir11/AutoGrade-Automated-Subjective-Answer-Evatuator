@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Black">
+    <option name="enabledOnReformat" value="true" />
+    <option name="pathToExecutable" value="C:\ProgramData\anaconda3\Scripts\black.exe" />
+    <option name="sdkUUID" value="7915e00b-9b53-4b53-a384-899462ebe74f" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (AutoGrade-Automated-Subjective-Answer-Evatuator)" project-jdk-type="Python SDK" />
+  <component name="PyPackaging">
+    <option name="earlyReleasesAsUpgrades" value="true" />
+  </component>
+</project>
