@@ -42,3 +42,6 @@ for page_num, page_text in enumerate(text_from_pdf, start=1):
     print(f"Page {page_num} Extracted Text:")
     print(page_text)
     print()
+
+#error yeil yat
+#tya slast line madhlya specified file madhe changes kar: ANTIALIAS jithe asel tithe LANCZOS taak
