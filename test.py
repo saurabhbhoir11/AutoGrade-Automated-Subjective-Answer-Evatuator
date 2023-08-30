@@ -44,4 +44,4 @@ for page_num, page_text in enumerate(text_from_pdf, start=1):
     print()
 
 #error yeil yat
-#tya slast line madhlya specified file madhe changes kar: ANTIALIAS jithe asel tithe LANCZOS taak
+#tya slast line madhlya specified file madhe changes kar: ANTIALIAS jithe asel tithe LANCZOS taak ani mag run kar
