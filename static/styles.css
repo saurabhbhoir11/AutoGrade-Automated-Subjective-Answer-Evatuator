@@ -1,0 +1,41 @@
+
+body {
+    background-color: #000;
+    color: #fff;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.custom-file-label::after {
+    background-color: #d01c1c;
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: #d01c1c;
+    border-color: #d01c1c;
+}
+
+
+pre {
+    background-color: #d01c1c;
+    border: 1px solid #fff;
+    padding: 10px;
+    white-space: pre-wrap;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+
+h1, h3 {
+    color: #fff;
+}
+
