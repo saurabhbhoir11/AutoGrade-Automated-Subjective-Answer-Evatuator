@@ -5,6 +5,8 @@ import fitz  # PyMuPDF
 import pytesseract
 import os
 import io
+import cv2
+import numpy as np
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -32,14 +34,40 @@ def pdf_to_image_stream(filepath):
 
     pdf_document.close()
 
+def preprocess_image(image):
+    # Grayscale Conversion
+    gray_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
+
+    # Thresholding
+    _, thresholded_image = cv2.threshold(gray_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    # Noise Reduction
+    # kernel = np.ones((3, 3), np.uint8)
+    # denoised_image = cv2.morphologyEx(thresholded_image, cv2.MORPH_OPEN, kernel)
+
+    # Deskewing (if needed)
+
+    # Rescaling
+    # resized_image = cv2.resize(denoised_image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
+
+    # Invert Colors (if needed)
+
+    return Image.fromarray(thresholded_image)
+
 def extract_text_from_pdf(filepath):
     extracted_text = ""
     for image_data in pdf_to_image_stream(filepath):
         image = Image.open(io.BytesIO(image_data))
-        text = pytesseract.image_to_string(image, lang='eng')
+
+        # Preprocess the image
+        preprocessed_image = preprocess_image(image)
+
+        custom_config = r'--oem 3 --psm 6 -l eng'  # Use LSTM OCR Engine (oem 3), Page Segmentation Mode (psm 6), English language (eng)
+        text = pytesseract.image_to_string(preprocessed_image, config=custom_config)
+
+        
         extracted_text += text + "\n"
     return extracted_text
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -52,7 +80,6 @@ def index():
             text = extract_text_from_pdf(filepath)
             return render_template('index.html', text=text, filename=filename)
     return render_template('index.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
