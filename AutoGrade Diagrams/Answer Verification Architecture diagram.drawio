@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net" modified="2023-09-11T13:19:02.506Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36" etag="IQ7qKleOcKvQy9zgR_Ap" version="21.7.1" type="device">
+  <diagram name="Page-1" id="BiJPA7HASOZCbi4nRhK1">
+    <mxGraphModel dx="1723" dy="707" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="znuaqNCw2sBcnTK18KOd-12" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="100" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-1" value="&lt;h4&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;STUDENT&amp;nbsp;&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;b&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;ANSWER&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;/b&gt;&lt;b&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;SHEET&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&lt;/b&gt;&lt;/h4&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.multi-document;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="90" y="102.5" width="130" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-9" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="znuaqNCw2sBcnTK18KOd-1" target="znuaqNCw2sBcnTK18KOd-13" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="220" y="180" as="sourcePoint" />
+            <mxPoint x="310" y="155" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-10" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="znuaqNCw2sBcnTK18KOd-14" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="610" y="154.5" as="sourcePoint" />
+            <mxPoint x="700" y="154.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-13" value="&lt;b&gt;&lt;font face=&quot;Verdana&quot;&gt;GRAMMAR&lt;br&gt;VERIFICATION&lt;/font&gt;&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="320" y="120" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-14" value="&lt;font face=&quot;Verdana&quot;&gt;&lt;b&gt;SEMANTIC&amp;nbsp;&lt;br&gt;ANALYSIS&lt;/b&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="470" y="120" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-15" value="&lt;h4&gt;&lt;div style=&quot;text-align: justify;&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;RESULT&lt;/font&gt;&lt;/div&gt;&lt;/h4&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.multi-document;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="700" y="110" width="100" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-19" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="znuaqNCw2sBcnTK18KOd-20" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="529.54" y="270" as="sourcePoint" />
+            <mxPoint x="528.95" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-20" value="&lt;b&gt;&lt;font face=&quot;Verdana&quot;&gt;&lt;br&gt;DATABASE OF SAMPLE PAPER&lt;/font&gt;&lt;/b&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="460" y="270" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-23" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="znuaqNCw2sBcnTK18KOd-13" target="znuaqNCw2sBcnTK18KOd-14" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="220" as="sourcePoint" />
+            <mxPoint x="470" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="znuaqNCw2sBcnTK18KOd-25" value="&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Verdana&quot;&gt;&lt;b style=&quot;&quot;&gt;ANSWER VERIFICATION ARCHITECTURE DIAGRAM :-&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="150" y="380" width="560" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
