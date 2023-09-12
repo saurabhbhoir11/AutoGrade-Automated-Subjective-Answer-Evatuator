@@ -26,7 +26,7 @@ def pdf_to_image_stream(filepath):
         pixmap = page.get_pixmap()
 
         img_stream = io.BytesIO()
-        image = Image.frombytes("RGB", [pixmap.width, pixmap.height], pixmap.samples)
+        image = Image.frombytes("RGB", (pixmap.width, pixmap.height), pixmap.samples)
         image.save(img_stream, format="PNG")
         img_data = img_stream.getvalue()
 
@@ -51,6 +51,7 @@ def preprocess_image(image):
     # resized_image = cv2.resize(denoised_image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
 
     # Invert Colors (if needed)
+    cv2.imwrite('test.jpg', thresholded_image)
 
     return Image.fromarray(thresholded_image)
 
