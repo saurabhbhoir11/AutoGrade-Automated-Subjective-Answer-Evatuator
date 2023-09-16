@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "autograde-399207",
+  "private_key_id": "0aeae53ff521b46d1b020626e0ed8574dc9e65aa",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC4FrrrQxCMQBp1\nj6ZBGFM6KyzEOk+VMZPlLPFTJGt4cMc1vvlgJBoY1nhr/D4lZmpuWOYr7YMt3SS2\nCV1uWMACk2XXdvMjTaFJuozKR2pXpvD7sBf3hlHBnx1G8YSOv/IwmRp5oQ6HKgdq\nFQssl+j3J/07RFZDnln6gCFq6zQb+PLCndpYVJ1M/WwT2fxzLfVVc42Q26pq6htY\nRZVMgqlqw2otwaoRQUXshxrZWIt6swF0joM9WBE/ArWQnlZS6buoFUdnFnmq9bdS\nIyZJs6uUR0M551s/anBsh4a6M8YvTbg4fut9z3Tzhoa0p3Us6CDGJiW/QsoAf7oF\ngaccV6N/AgMBAAECggEALy+QWOZXUwPJZHHeNRhFmQbhEik6Je1P0fH7p4qRy4zo\n2xNo+2Y1lEFBG7jLuy1twXwi/4aBVdu14b0zyCmSifZ7J8fzGYz39xyMovq8PNxr\nL7Ba7FTvFtiwmfMlPavgqelMmnmYbjftL5lWRGdpzRRgefURwYJQ4P8/0ZaZREPS\nWZ7ypg7rxNEcaDASMBhqNWcGM80XUUDyovFpLRUZJS0kJmWwcaxLg//QgMcX4spK\n8qeW35Pvw355Bkn9eiCLb1Lu5vAbetbzOfICKX+tN1ENa3946B5j7pPS760ovzJX\nUfPSvMdOdRsIb3wZ94LYwnnT4r4h9FiM4vqFMK0o5QKBgQD95SvAoYZ3sUMykavB\nX7dNu8T97eMiiP+cxjBqVaNuEFgHGWdpldz0vR9lUe9gxCntYJ6FlbsmjLs/2sEh\n3FzZ93vz2828aJRAgMrfPCfPRl1L9fQ+HLaPkAcK0djVGhqUSKsh+ec/mbBHfvAp\nW6ANVhVGoo/Kpz3xTECXTdKsdQKBgQC5nWmfig20qE83pwHPRQNVRZ4T+JjLcvAw\nIoOPhaGL81PrwQSdvfBdZxms6N2b6doC9QgB/tTNYmXervPoXPKclLZ18vknCYQI\nqTNV4Xvg89ZH0BP+kFagmssHERTLsevGFIWPZeZgRjGB/SWGHUSwSuVCISBA9HC1\n3zt3Xv3howKBgQCmMKYM9y3flwZXSYbVkuOXXDs7w8UTS/2VDx2N3PSXDNex/ez0\n7gWtpUWxuoooGv8exEm/Qx03xJKk33nfwjB89EQMgWoP05yHBEbHDMc6I+LZ3+q5\n5W2SV0Jk0KtQAkA3o8FxAfVeaik7A1oMmE8Rq7FNhQb+La6cDb+Ryn0GKQKBgQCk\ngC+15wISk//xEJ/38+/qSNK6XF3+IRVhc5UpQ4NSpwo/LEdNDaLTBKaqqY6NuYkv\nib3ZFuG+THCAFImx635Q6zNyAS5zPGm5y0rl1/qT+UZ1SqINwBomKEm7L5ZAmKSe\nXl2oIuUzecIytAnnfFT98MKSAw20w26IoRjwyE01BQKBgC5ddgh1HvKUNFvMEkGi\nJbJgshAen1yb4DSwXENLfT53D6dFFx7EaN1kGnIhHgyKzf54eX1Ef/XJ/6L3MdxN\n+/1MHhoVXmPJ2azk7ZDeZc9wwM1Y6LPIuNnrk2NDiC/fGU14BYkhXFy8dM/7cslv\nqOvAIJp4s3nkHQYcgskgHbur\n-----END PRIVATE KEY-----\n",
+  "client_email": "autograde@autograde-399207.iam.gserviceaccount.com",
+  "client_id": "113860371352469622140",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/autograde%40autograde-399207.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
