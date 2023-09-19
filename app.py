@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 from werkzeug.utils import secure_filename
 from PIL import Image
 import fitz  # PyMuPDF
@@ -91,9 +91,7 @@ def save_to_mongo(text, filename):
 
     return jsonify({'message': 'Data saved to MongoDB successfully'})
 
-
-
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         file = request.files['file']
@@ -108,6 +106,63 @@ def index():
 
             return render_template('index.html', text=text, filename=filename)
     return render_template('index.html')
+
+# MongoDB collection for users
+users_collection = mongo.db.users
+
+# Route for the login page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        # Check if the user exists in the database
+        user = users_collection.find_one({'username': username, 'password': password})
+
+        if user:
+            # User authenticated successfully, redirect to a dashboard or profile page
+            return redirect(url_for('dashboard'))
+
+        # Authentication failed, display an error message
+        error_message = 'Invalid credentials. Please try again.'
+        return render_template('login.html', error_message=error_message)
+
+    return render_template('login.html')
+
+
+# Route for the signup page
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        print(request.form)
+        username = request.form.get['username']
+        password = request.form.get['password']
+
+        # Check if the username already exists in the database
+        existing_user = users_collection.find_one({'username': username})
+
+        if existing_user:
+            error_message = 'Username already exists. Please choose a different username.'
+            return render_template('signup.html', error_message=error_message)
+
+        # Add the new user to the MongoDB collection
+        users_collection.insert_one({'username': username, 'password': password})
+
+        # Redirect to the login page after successful signup
+        return redirect(url_for('login'))
+
+    return render_template('signup.html')
+
+
+# Route for the dashboard or profile page (You can create this page as needed)
+@app.route('/dashboard')
+def dashboard():
+    return 'Welcome to the Dashboard'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 
 
 if __name__ == '__main__':
