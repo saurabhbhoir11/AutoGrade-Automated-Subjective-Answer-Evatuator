@@ -7,8 +7,13 @@ import os
 import io
 import cv2
 import numpy as np
+from flask_pymongo import PyMongo
+from flask import jsonify
 
 app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+mongo = PyMongo(app)
+
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
 
@@ -70,6 +75,24 @@ def extract_text_from_pdf(filepath):
         extracted_text += text + "\n"
     return extracted_text
 
+def save_to_mongo(text, filename):
+    # Access the MongoDB collection (create it if it doesn't exist)
+    db = mongo.db
+    collection = db['Autograde']
+
+    # Create a document to insert into the collection
+    document = {
+        'filename': filename,
+        'text': text
+    }
+
+    # Insert the document into the collection
+    collection.insert_one(document)
+
+    return jsonify({'message': 'Data saved to MongoDB successfully'})
+
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -79,8 +102,13 @@ def index():
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(filepath)
             text = extract_text_from_pdf(filepath)
+            
+            # Save the extracted text to MongoDB
+            save_to_mongo(text, filename)
+
             return render_template('index.html', text=text, filename=filename)
     return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

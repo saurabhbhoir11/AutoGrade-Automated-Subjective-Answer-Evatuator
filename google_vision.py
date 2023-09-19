@@ -1,11 +1,11 @@
 from google.cloud import vision
 import os 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "client_file_vision_api.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "service_acc_key.json"
 
 client = vision.ImageAnnotatorClient()
 
-with open('test.jpg', 'rb') as image_file:
+with open('test1.png', 'rb') as image_file:
     content = image_file.read()
 
 image = vision.Image(content=content)
