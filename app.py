@@ -91,7 +91,7 @@ def save_to_mongo(text, filename):
 
     return jsonify({'message': 'Data saved to MongoDB successfully'})
 
-@app.route('/home', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         file = request.files['file']
@@ -122,7 +122,7 @@ def login():
 
         if user:
             # User authenticated successfully, redirect to a dashboard or profile page
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('index'))
 
         # Authentication failed, display an error message
         error_message = 'Invalid credentials. Please try again.'
@@ -161,9 +161,4 @@ def dashboard():
     return 'Welcome to the Dashboard'
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port = 5001)
