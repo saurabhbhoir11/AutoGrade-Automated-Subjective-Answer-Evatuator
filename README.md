@@ -5,7 +5,7 @@
 Before you begin, make sure you have the following prerequisites installed on your system:
 
 - Python 3.x: You can download and install Python from the [official website](https://www.python.org/downloads/).
-
+- Download the Universal Sentence Encoder Model from [official website](https://drive.google.com/drive/folders/1_m6_SAVSZnUqi5GwxdiTpHUSpv91g51d?usp=sharing)
 ## Getting Started
 
 
