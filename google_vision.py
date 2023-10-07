@@ -1,7 +1,7 @@
 from google.cloud import vision
 import os 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "service_acc_key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "creds.json"
 
 client = vision.ImageAnnotatorClient()
 
@@ -15,3 +15,4 @@ texts = response.text_annotations
 
 for text in texts:
     print(text.description)
+ 

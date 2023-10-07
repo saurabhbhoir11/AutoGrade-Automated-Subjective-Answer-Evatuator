@@ -1,5 +1,5 @@
 /.venv/
 /uploads/
-/service_acc_key.json/
 /USE/
 /encrytion_key.key/
+/creds.json/
