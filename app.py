@@ -65,6 +65,8 @@ def extract_text_from_pdf(filepath):
     for image_data in pdf_to_image_stream(filepath):
         image = Image.open(io.BytesIO(image_data))
 
+        print(image)
+
         # Preprocess the image
         preprocessed_image = preprocess_image(image)
 
