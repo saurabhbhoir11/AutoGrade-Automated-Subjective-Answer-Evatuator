@@ -11,7 +11,7 @@ def houghLines(img):
         rr, cc = line(0, i, w-1, h-i-1)
         acc.append(np.sum(img[rr, cc]))
     mi = np.argmax(acc)
-    ret = np.zeros(img.shape, dtype=np.bool)
+    ret = np.zeros(img.shape, dtype=np.bool_)
     rr, cc = line(0, mi, w-1, h-mi-1)
     ret[rr, cc] = True
     return ret
@@ -22,8 +22,7 @@ def lines_removal(img, return_gray=False):
     from scipy import ndimage, spatial
     from scipy.ndimage import filters, morphology
 
-    #imggray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imggray = img
+    imggray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     imfft = np.fft.fft2(imggray)
     imffts = np.fft.fftshift(imfft)
     mags = np.abs(imffts)

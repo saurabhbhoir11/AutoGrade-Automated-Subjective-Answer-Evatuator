@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import math
 
+img = cv2.imread("page_1.png")
 
 def get_equidistant_circle_points(r, num_points=8):
     """Gets equidistant points on a circle."""
@@ -12,7 +13,7 @@ def get_equidistant_circle_points(r, num_points=8):
     return points
 
 
-def page_hole_removal(img, image_size):
+def page_hole_removal(img):
     """Removes page ring holes, should they exist.
     
     Parameters:
@@ -21,13 +22,10 @@ def page_hole_removal(img, image_size):
     detector = cv2.SimpleBlobDetector_create()
     params = cv2.SimpleBlobDetector_Params()
 
-    width, height = image_size  # PIL size returns (width, height)
-
-
     # Filter by Area.
     params.filterByArea = True
-    params.minArea = (height*width)*0.0005
-    params.maxArea = (height*width)*0.003
+    params.minArea = (img.shape[0]*img.shape[1])*0.0005
+    params.maxArea = (img.shape[0]*img.shape[1])*0.003
 
     # Filter by Circularity
     params.filterByCircularity = True
@@ -42,7 +40,7 @@ def page_hole_removal(img, image_size):
     params.minInertiaRatio = 0.4
 
     # Distance Between Blobs
-    params.minDistBetweenBlobs = height//8
+    params.minDistBetweenBlobs = img.shape[0]//8
 
     # Create a detector with the parameters
     detector = cv2.SimpleBlobDetector_create(params)
@@ -99,3 +97,5 @@ def page_hole_removal(img, image_size):
         img[top:bottom, left:right] = blurred
     
     return img
+img = page_hole_removal(img)
+cv2.imwrite("test.png", img)

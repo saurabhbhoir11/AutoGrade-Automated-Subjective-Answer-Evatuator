@@ -11,8 +11,7 @@ def page_border(img):
         img (np.ndarray): The image to border
     """
     # Blur the image
-    #gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    gray = img
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gaussian_blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     thresh = cv2.threshold(
         gaussian_blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
