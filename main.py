@@ -1,10 +1,44 @@
-import json
-import re
+from flask import Flask, render_template, request, url_for, redirect
+from werkzeug.utils import secure_filename
+from PIL import Image
+import fitz  # PyMuPDF
+import pytesseract
 import os
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "creds.json"
-
+import io
+import cv2
+import numpy as np
+from flask_pymongo import PyMongo
+from flask import jsonify
+import re
 from google.cloud import vision
 from google.cloud import storage
+
+app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+mongo = PyMongo(app)
+
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['ALLOWED_EXTENSIONS'] = {'pdf'}
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "creds.json"
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+def save_to_mongo(text, filename):
+    # Access the MongoDB collection (create it if it doesn't exist)
+    db = mongo.db
+    collection = db['Autograde']
+
+    # Create a document to insert into the collection
+    document = {
+        'filename': filename,
+        'text': text
+    }
+
+    # Insert the document into the collection
+    collection.insert_one(document)
+
+    return jsonify({'message': 'Data saved to MongoDB successfully'})
 
 def delete_existing_results(gcs_destination_uri):
     storage_client = storage.Client()
@@ -17,7 +51,8 @@ def delete_existing_results(gcs_destination_uri):
     for blob in list(bucket.list_blobs(prefix=prefix)):
         blob.delete()
 
-def async_detect_document(local_file_path, gcs_destination_uri):
+def async_detect_document(filepath, gcs_destination_uri):
+    text = ""
     """OCR with PDF/TIFF as source files on GCS"""
     import json
     import re
@@ -29,7 +64,7 @@ def async_detect_document(local_file_path, gcs_destination_uri):
 
     # Set your GCS bucket and object name for the uploaded file
     gcs_bucket_name = 'autograde_files'
-    gcs_object_name = 'Doc2.pdf'  # Change to the desired object name
+    gcs_object_name = 'Doc1.pdf'  # Change to the desired object name
 
     # Initialize a GCS client
     storage_client = storage.Client()
@@ -37,7 +72,7 @@ def async_detect_document(local_file_path, gcs_destination_uri):
     # Upload the local file to GCS
     bucket = storage_client.get_bucket(gcs_bucket_name)
     blob = bucket.blob(gcs_object_name)
-    blob.upload_from_filename(local_file_path)
+    blob.upload_from_filename(filepath)
 
     # Supported mime_types are: 'application/pdf' and 'image/tiff'
     mime_type = "application/pdf"
@@ -101,12 +136,42 @@ def async_detect_document(local_file_path, gcs_destination_uri):
     # The response contains more information:
     # annotation/pages/blocks/paragraphs/words/symbols
     # including confidence scores and bounding boxes
-    print("Full text:\n")
-    print(annotation["text"])
+    text = annotation["text"]
+    
 
-# Replace these paths with your local file path and GCS destination URI
-local_file_path = "Doc2.pdf"
-gcs_destination_uri = "gs://autograde_files/results"
+    return text
 
-delete_existing_results(gcs_destination_uri)
-async_detect_document(local_file_path, gcs_destination_uri)
+
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            
+            # Call the function to delete existing results from GCS
+            gcs_destination_uri = "gs://autograde_files/results"
+            delete_existing_results(gcs_destination_uri)
+            
+            # Call the function to extract text from the PDF and store it
+            async_detect_document(filepath, gcs_destination_uri)
+            
+            # Fetch the text from GCS or MongoDB (whichever you prefer)
+            
+            # Optionally, you can fetch text from MongoDB here if you've stored it there.
+            text =  async_detect_document(filepath, gcs_destination_uri)
+            
+            # Or, you can fetch text from GCS if it's been written there.
+            # For example: text = fetch_text_from_gcs(gcs_destination_uri)
+            
+            # Return the text to the user
+            return render_template('index.html', text=text, filename=filename)
+    
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5001)
