@@ -3,11 +3,7 @@ import cv2
 import matplotlib.pyplot as plt
 import argparse
 
-import pageBordering
-import lineRemoval
-import circleRemoval
-import connectedComponentsProcessing
-import lineClustering
+from img_preproces import pageBordering, circleRemoval, connectedComponentsProcessing, lineClustering, lineRemoval
 import wordAnalysis
 
 def img_resize(img, scale):
