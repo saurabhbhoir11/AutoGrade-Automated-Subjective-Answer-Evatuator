@@ -8,11 +8,11 @@ cycler==0.12.1
 flatbuffers==23.5.26
 fonttools==4.43.1
 gast==0.5.4
-google-auth==2.23.2
+google-auth==2.23.3
 google-auth-oauthlib==1.1.0
 google-pasta==0.2.0
 grpcio==1.59.0
-h5py==3.9.0
+h5py==3.10.0
 idna==3.4
 keras==2.14.0
 kiwisolver==1.4.5
