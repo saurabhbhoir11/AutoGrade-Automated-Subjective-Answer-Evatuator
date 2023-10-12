@@ -2,8 +2,8 @@ from pdf2image import convert_from_path
 import os
 import cv2
 import pytesseract
-import circleRemoval
-import lineRemoval
+'''import circleRemoval
+import lineRemoval'''
 
 directory_path = "test images/"
 files = os.listdir(directory_path)
@@ -26,22 +26,26 @@ images = convert_from_path(pdf_file)
 for i, image in enumerate(images):
     # You can save each image to a file, display it, or process it further.
     # Example: Saving as PNG files
-    image.save(f"page_{i + 1}.png", "PNG")
+    image.save(f"test images/page_{i + 1}.png", "PNG")
 
 
-def prerocessImage(img):
-    img = circleRemoval.page_hole_removal(img)
+'''def prerocessImage(img):
+  img = circleRemoval.page_hole_removal(img)
     img = lineRemoval.lines_removal(img)
     cv2.imshow("tsj", img)
-    return img
+    return img'''
 
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 print(files)
-for file in files:
+for i in range(1,7):
+    file = "page_" + str(i) + ".png"
     image = cv2.imread(file)
-    image = prerocessImage(image)
-    cv2.imwrite("test.png", image)
+    cv2.imshow("sss", image)
+    #image = prerocessImage(image)
+    #cv2.imwrite("test.png", image)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
 
     # Use Tesseract to extract text from the image
     extracted_text = pytesseract.image_to_string(image, lang="eng")
