@@ -78,7 +78,7 @@ def async_detect_document(filepath, gcs_destination_uri):
     mime_type = "application/pdf"
 
     # How many pages should be grouped into each json output file.
-    batch_size = 2
+    batch_size = 50
 
     client = vision.ImageAnnotatorClient()
 
@@ -120,26 +120,18 @@ def async_detect_document(filepath, gcs_destination_uri):
     for blob in blob_list:
         print(blob.name)
 
-    # Process the first output file from GCS.
-    # Since we specified batch_size=2, the first response contains
-    # the first two pages of the input file.
-    output = blob_list[0]
+    # Process text from all output files
+    for output in blob_list:
+        json_string = output.download_as_bytes().decode("utf-8")
+        response = json.loads(json_string)
 
-    json_string = output.download_as_bytes().decode("utf-8")
-    response = json.loads(json_string)
-
-    # The actual response for the first page of the input file.
-    first_page_response = response["responses"][0]
-    annotation = first_page_response["fullTextAnnotation"]
-
-    # Here we print the full text from the first page.
-    # The response contains more information:
-    # annotation/pages/blocks/paragraphs/words/symbols
-    # including confidence scores and bounding boxes
-    text = annotation["text"]
-    
+        # Extract text from each page and concatenate it to the 'text' variable
+        for page_response in response["responses"]:
+            annotation = page_response["fullTextAnnotation"]
+            text += annotation["text"] + '\n'  # Add a newline between pages
 
     return text
+
 
 
 
@@ -164,7 +156,7 @@ def index():
             
             # Optionally, you can fetch text from MongoDB here if you've stored it there.
             text =  async_detect_document(filepath, gcs_destination_uri)
-            
+            save_to_mongo(text,filename)
             # Or, you can fetch text from GCS if it's been written there.
             # For example: text = fetch_text_from_gcs(gcs_destination_uri)
             
