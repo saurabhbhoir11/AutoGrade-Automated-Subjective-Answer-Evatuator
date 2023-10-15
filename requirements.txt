@@ -46,3 +46,17 @@ typing_extensions==4.8.0
 urllib3==2.0.6
 Werkzeug==3.0.0
 wrapt==1.15.0
+
+google-cloud-storage==2.12.0
+google-cloud==0.34.0
+google-cloud-vision==3.4.4
+pytesseract==0.3.10
+opencv-python==4.8.0.76
+Flask==2.2.2
+torch==2.0.1
+transformers==2.1.1
+scipy==1.10.1
+cryptography==39.0.1
+scikit-learn==1.2.2
+nltk==3.7
+pdf2image==1.16.3

@@ -1,5 +1,6 @@
+
 from google.cloud import vision
-import os 
+import os
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "creds.json"
 
