@@ -52,4 +52,4 @@ def lines_removal(img, return_gray=False):
     newim2 = cv2.cvtColor(newim2, cv2.COLOR_GRAY2RGB)
     newim2 = np.maximum(newim2, img)
     img = newim2
-    return img, gray
+    return img

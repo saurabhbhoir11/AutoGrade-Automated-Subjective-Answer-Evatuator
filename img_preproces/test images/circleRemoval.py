@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import math
 
-img = cv2.imread("page_1.png")
+
 
 def get_equidistant_circle_points(r, num_points=8):
     """Gets equidistant points on a circle."""
@@ -97,5 +97,3 @@ def page_hole_removal(img):
         img[top:bottom, left:right] = blurred
     
     return img
-img = page_hole_removal(img)
-cv2.imwrite("test.png", img)
