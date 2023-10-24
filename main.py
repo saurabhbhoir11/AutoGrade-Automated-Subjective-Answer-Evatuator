@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, send_file
 from werkzeug.utils import secure_filename
 from PIL import Image
 import fitz  # PyMuPDF
@@ -50,7 +50,7 @@ def delete_existing_results(gcs_destination_uri):
     # List and delete objects with the given prefix
     for blob in list(bucket.list_blobs(prefix=prefix)):
         blob.delete()
-
+ 
 def async_detect_document(filepath, gcs_destination_uri):
     text = ""
     """OCR with PDF/TIFF as source files on GCS"""
@@ -159,11 +159,28 @@ def index():
             save_to_mongo(text,filename)
             # Or, you can fetch text from GCS if it's been written there.
             # For example: text = fetch_text_from_gcs(gcs_destination_uri)
+
+             # Extract and render individual pages of the PDF
+            pdf_document = fitz.open(filepath)
+            page_images = []
+
+            for page_number in range(pdf_document.page_count):
+                page = pdf_document.load_page(page_number)
+                img_data = page.get_pixmap()
+                img = Image.frombytes("RGB", [img_data.width, img_data.height], img_data.samples)
+                img_path = os.path.join(app.config['UPLOAD_FOLDER'], f"page_{page_number}.png")
+                img.save(img_path)
+                page_images.append(img_path)
             
             # Return the text to the user
-            return render_template('index.html', text=text, filename=filename)
+            return render_template('index.html', text=text, page_images=page_images, filename=filename)
     
     return render_template('index.html')
+
+@app.route('/get_page/<int:page_number>')
+def get_page(page_number):
+    img_path = os.path.join(app.config['UPLOAD_FOLDER'], f"page_{page_number}.png")
+    return send_file(img_path, mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
