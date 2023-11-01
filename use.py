@@ -7,15 +7,20 @@ saved_dir = 'USE'
 # Load the USE model
 use_model = tf.saved_model.load(saved_dir)
 
-# Define your sentences
-sentence1 = "The quick brown fox jumps over the lazy dog."
-sentence2 = "A speedy brown fox leaps over the sleepy dog."
+# Define sentences to be evaluated
+sentences = [
+    "My name is suyash.",
+    "That boy's name is suyash.",
+    "He studies in APSIT."
+]
 
-# Encode the sentences using the loaded model
-embeddings = use_model([sentence1, sentence2])
+# Encode the sentences
+embeddings = use_model(sentences)
 
-# Compute the cosine similarity
-similarity_score = tf.keras.losses.cosine_similarity(embeddings[0], embeddings[1]).numpy()
+# Calculate the cosine similarity between sentences
 
-print(f"Similarity between the two sentences: {similarity_score}")
- 
+for i in range(len(sentences)):
+    for j in range(i + 1, len(sentences)):
+        similarity_score = tf.tensordot(embeddings[i], embeddings[j], axes=1).numpy()
+        print(f"Similarity between '{sentences[i]}' and '{sentences[j]}': {similarity_score:.4f}")
+        
