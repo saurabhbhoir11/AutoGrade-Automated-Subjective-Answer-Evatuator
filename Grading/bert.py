@@ -8,7 +8,7 @@ model = BertModel.from_pretrained("bert-base-uncased")
 
 # Define the student's answer and model answer
 student_answer = "The quick brown fox jumps over the lazy dog."
-model_answer = "A fast brown fox leaps over a lazy canine."
+model_answer = "Today is mini project presentation."
 
 # Tokenize and encode the answers
 student_tokens = tokenizer(student_answer, return_tensors="pt")
