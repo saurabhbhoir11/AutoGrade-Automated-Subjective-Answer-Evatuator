@@ -7,6 +7,9 @@ import os
 import io
 import cv2
 import numpy as np
+import circleRemoval
+import lineRemoval
+from pdf2image import convert_from_path
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -18,58 +21,51 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
+directory_path = "/uploads"
+files = os.listdir(directory_path)
+
+
+def clearDirectory():
+    for file in files:
+        file_path = os.path.join(directory_path, file)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
 def pdf_to_image_stream(filepath):
-    pdf_document = fitz.open(filepath)
+    images = convert_from_path(filepath)
+    for i, image in enumerate(images):
+    # You can save each image to a file, display it, or process it further.
+    # Example: Saving as PNG files
+        image.save(f"page_{i + 1}.png", "PNG")
 
-    for page_num in range(pdf_document.page_count):
-        page = pdf_document.load_page(page_num)
-        pixmap = page.get_pixmap()
+def prerocessImage(image):
+    image = circleRemoval.page_hole_removal(image)
+    for _ in range(10):
+        image = lineRemoval.lines_removal(image)
+    #cv2.imshow("tsj", img)
+    #img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 5, 11)
+    return image
 
-        img_stream = io.BytesIO()
-        image = Image.frombytes("RGB", (pixmap.width, pixmap.height), pixmap.samples)
-        image.save(img_stream, format="PNG")
-        img_data = img_stream.getvalue()
 
-        yield img_data
 
-    pdf_document.close()
-
-def preprocess_image(image):
-    # Grayscale Conversion
-    gray_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
-
-    # Thresholding
-    _, thresholded_image = cv2.threshold(gray_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-
-    # Noise Reduction
-    # kernel = np.ones((3, 3), np.uint8)
-    # denoised_image = cv2.morphologyEx(thresholded_image, cv2.MORPH_OPEN, kernel)
-
-    # Deskewing (if needed)
-
-    # Rescaling
-    # resized_image = cv2.resize(denoised_image, None, fx=2, fy=2, interpolation=cv2.INTER_CUBIC)
-
-    # Invert Colors (if needed)
-    cv2.imwrite('test.jpg', thresholded_image)
-
-    return Image.fromarray(thresholded_image)
 
 def extract_text_from_pdf(filepath):
     extracted_text = ""
-    for image_data in pdf_to_image_stream(filepath):
-        image = Image.open(io.BytesIO(image_data))
+    for i in range(1,7):
+        file = "page_" + str(i) + ".png"
+        image = cv2.imread(file)
+        #cv2.imshow("sss", image)
+        image = prerocessImage(image)
+        #cv2.imwrite("test"+str(i)+".png", image)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        #image = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 1, 11)
+        # cv2.imwrite("test"+str(i)+".png", image)
 
-        print(image)
 
-        # Preprocess the image
-        preprocessed_image = preprocess_image(image)
-
-        custom_config = r'--oem 3 --psm 6 -l eng'  # Use LSTM OCR Engine (oem 3), Page Segmentation Mode (psm 6), English language (eng)
-        text = pytesseract.image_to_string(preprocessed_image, config=custom_config)
-
-        
-        extracted_text += text + "\n"
+    # Use Tesseract to extract text from the image
+    custom_config = r'--oem 3 --psm 6 -l eng'
+    text = pytesseract.image_to_string(image, config=custom_config)
+    extracted_text += text + "\n"
     return extracted_text
 
 @app.route('/', methods=['GET', 'POST'])
