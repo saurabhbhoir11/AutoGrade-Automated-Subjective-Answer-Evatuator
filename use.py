@@ -14,25 +14,25 @@ all_sentences = paragraph1 + paragraph2
 #embeddings = use_model(all_sentences)
 
 # Separate embeddings for each paragraph
-'''
-embeddings_paragraph1 = embeddings[:len(paragraph1)]
-embeddings_paragraph2 = embeddings[len(paragraph1):]
 
-# Calculate cosine similarity between each sentence in paragraph1 and every sentence in paragraph2
-similarity_matrix = tf.linalg.matmul(
-    tf.math.l2_normalize(embeddings_paragraph1, axis=1),
-    tf.math.l2_normalize(embeddings_paragraph2, axis=1),
-    transpose_b=True
-)
+# embeddings_paragraph1 = embeddings[:len(paragraph1)]
+# embeddings_paragraph2 = embeddings[len(paragraph1):]
+#
+# # Calculate cosine similarity between each sentence in paragraph1 and every sentence in paragraph2
+# similarity_matrix = tf.linalg.matmul(
+#     tf.math.l2_normalize(embeddings_paragraph1, axis=1),
+#     tf.math.l2_normalize(embeddings_paragraph2, axis=1),
+#     transpose_b=True
+# )
+#
+# # Display the similarity matrix
+# print("Similarity Matrix:")
+# print(similarity_matrix.numpy())
+#
+# max_similarity_scores = tf.reduce_max(similarity_matrix, axis=1).numpy()
+# print("Maximum Similarity Scores for Each Sentence in Paragraph1:")
+# print(max_similarity_scores)
 
-# Display the similarity matrix
-print("Similarity Matrix:")
-print(similarity_matrix.numpy())
-
-max_similarity_scores = tf.reduce_max(similarity_matrix, axis=1).numpy()
-print("Maximum Similarity Scores for Each Sentence in Paragraph1:")
-print(max_similarity_scores)
-'''
 paragraph1_sentences = [sentence.strip() for sentence in paragraph1.split('.') if sentence]
 paragraph2_sentences = [sentence.strip() for sentence in paragraph2.split('.') if sentence]
 
@@ -52,3 +52,10 @@ for i, sentence1 in enumerate(paragraph1_sentences):
 #         print(f"Similarity Score between Sentence {i + 1} in Paragraph 1 and Sentence {j + 1} in Paragraph 2: {similarity_scores[i, j]:.4f}")
 
 print(similarity_scores)
+
+max_values = np.max(similarity_scores, axis=1)
+max_indices = np.argmax(similarity_scores, axis=1)
+
+# Display the results
+for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
+    print(f"Row {i + 1}: Max Value = {max_val}, Max Index = {max_idx}")
