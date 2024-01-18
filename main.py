@@ -56,6 +56,7 @@ def delete_existing_results(gcs_destination_uri):
         blob.delete()
 
 
+# noinspection PyTypeChecker
 def async_detect_document(filepath, gcs_destination_uri):
     text = ""
     """OCR with PDF/TIFF as source files on GCS"""
@@ -69,7 +70,7 @@ def async_detect_document(filepath, gcs_destination_uri):
     from google.cloud import storage
 
     # Set your GCS bucket and object name for the uploaded file
-    gcs_bucket_name = "autograde_files"
+    gcs_bucket_name = "autograde_papers"
     gcs_object_name = "Doc1.pdf"  # Change to the desired object name
 
     # Initialize a GCS client
@@ -127,20 +128,36 @@ def async_detect_document(filepath, gcs_destination_uri):
         print(blob.name)
 
     # Process text from all output files
+    # for output in blob_list:
+    #     json_string = output.download_as_bytes().decode("utf-8")
+    #     response = json.loads(json_string)
+    #
+    #     # Extract text from each page and concatenate it to the 'text' variable
+    #     for page_response in response["responses"]:
+    #         annotation = page_response["fullTextAnnotation"]
+    #         text += annotation["text"] + "\n"  # Add a newline between pages
     for output in blob_list:
-        json_string = output.download_as_bytes().decode("utf-8")
-        response = json.loads(json_string)
+        json_string = output.download_as_text()
+    response = json.loads(json_string)
 
-        # Extract text from each page and concatenate it to the 'text' variable
-        for page_response in response["responses"]:
-            annotation = page_response["fullTextAnnotation"]
-            text += annotation["text"] + "\n"  # Add a newline between pages
+    # Extract text line by line from each page
+    for page_response in response["responses"]:
+        annotation = page_response.get("fullTextAnnotation", {})
+        for page in annotation.get("pages", []):
+            for block in page.get("blocks", []):
+                for paragraph in block.get("paragraphs", []):
+                    for word_info in paragraph.get("words", []):
+                        word = "".join([symbol["text"] for symbol in word_info.get("symbols", [])])
+                        text += word + " "
+                    text = text.rstrip()  # Remove trailing space
+                    text += "\n"  # Add a newline between paragraphs
+
 
     return text
 
 
 def textByGoogle(filepath, filename):
-    gcs_destination_uri = "gs://autograde_files/results"
+    gcs_destination_uri = "gs://autograde_papers/results"
     delete_existing_results(gcs_destination_uri)
 
     # Call the function to extract text from the PDF and store it
@@ -201,6 +218,9 @@ def textByTesseract(num):
         extracted_text = pytesseract.image_to_string(image, config=custom_config)
         text = text + extracted_text
     return text
+
+
+# def textByGoogleImg(num):
 
 
 @app.route("/", methods=["GET", "POST"])
