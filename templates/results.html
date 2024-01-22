@@ -1,0 +1,78 @@
+<!-- results.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoGrade Results</title>
+    <!-- Add your CSS styles or include Bootstrap styles here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+
+<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="{{ url_for('home') }}" class="navbar-brand">AutoGrade</a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="{{ url_for('profile') }}">Profile</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('upload') }}">Upload</a> 
+                </li>
+                <li class="active">
+                    <a href="{{ url_for('results') }}">Results</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>AutoGrade Results</h2>
+            {% if results_data %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Filename</th>
+                            <th>Text</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results_data %}
+                            <tr>
+                                <td>{{ result.filename }}</td>
+                                <td>{{ result.text }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No results available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JavaScript and jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

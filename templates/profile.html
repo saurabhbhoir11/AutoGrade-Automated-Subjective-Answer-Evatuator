@@ -1,0 +1,124 @@
+<!-- profile.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <!-- Add your CSS styles or include Bootstrap styles here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+
+<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="{{ url_for('home') }}" class="navbar-brand">AutoGrade</a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active">
+                    <a href="{{ url_for('profile') }}">Profile</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('upload') }}">Upload</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('results') }}">Results</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-6 col-md-offset-3">
+                <h2>Profile</h2>
+            
+                {% with messages = get_flashed_messages() %}
+                    {% for message in messages %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endwith %}
+            
+                {% if user %}
+                    <form method="post" action="{{ url_for('profile') }}">
+                        <div class="form-group">
+                            <label for="first_name">First Name:</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required value="{{ user.first_name }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">Last Name:</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required value="{{ user.last_name }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Department:</label>
+                            <select class="form-control" id="department" name="department" required>
+                                <option value="comps" {% if user.department == 'comps' %}selected{% endif %}>Computer Science</option>
+                                <option value="it" {% if user.department == 'it' %}selected{% endif %}>Information Technology</option>
+                                <option value="extc" {% if user.department == 'extc' %}selected{% endif %}>Electronics and Telecommunication</option>
+                                <option value="civil" {% if user.department == 'civil' %}selected{% endif %}>Civil Engineering</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year:</label>
+                            <select class="form-control" id="year" name="year" required>
+                                <option value="FE" {% if user.year == 'FE' %}selected{% endif %}>First Year</option>
+                                <option value="SE" {% if user.year == 'SE' %}selected{% endif %}>Second Year</option>
+                                <option value="TE" {% if user.year == 'TE' %}selected{% endif %}>Third Year</option>
+                                <option value="BE" {% if user.year == 'BE' %}selected{% endif %}>Fourth Year</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="semester">Semester:</label>
+                            <select class="form-control" id="semester" name="semester" required>
+                                <option value="I" {% if user.semester == 'I' %}selected{% endif %}>Semester I</option>
+                                <option value="II" {% if user.semester == 'II' %}selected{% endif %}>Semester II</option>
+                                <option value="III" {% if user.semester == 'III' %}selected{% endif %}>Semester III</option>
+                                <option value="IV" {% if user.semester == 'IV' %}selected{% endif %}>Semester IV</option>
+                                <option value="V" {% if user.semester == 'V' %}selected{% endif %}>Semester V</option>
+                                <option value="VI" {% if user.semester == 'VI' %}selected{% endif %}>Semester VI</option>
+                                <option value="VII" {% if user.semester == 'VII' %}selected{% endif %}>Semester VII</option>
+                                <option value="VIII" {% if user.semester == 'VIII' %}selected{% endif %}>Semester VIII</option>
+                            </select>
+                        </div>
+            
+                        {% if is_teacher %}
+                            <!-- Additional fields for teachers if needed -->
+                        {% endif %}
+            
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                {% else %}
+                    <p>Profile details not available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JavaScript and jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('nav a[href="{{ request.path }}"]').parent().addClass('active');
+    });
+</script>
+
+</body>
+</html>

@@ -1,26 +1,31 @@
-from flask import Flask, render_template, request, url_for, redirect, send_file
+from flask import *
 from werkzeug.utils import secure_filename
 from pdf2image import convert_from_path
 import pytesseract
 import os
-import io
 import cv2
 import numpy as np
 from flask_pymongo import PyMongo
-from flask import jsonify
-import re
-from google.cloud import vision
-from google.cloud import storage
+from google.cloud import vision,storage
 import circleRemoval
 import lineRemoval
+import re
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
 mongo = PyMongo(app)
+app.config['SECRET_KEY'] = 'your_secret_key'
 
 app.config["UPLOAD_FOLDER"] = "uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"pdf"}
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "creds.json"
+
+
+app.config["MONGO_URI_TEACHERS"] = "mongodb://localhost:27017/myDatabaseTeachers"
+app.config["MONGO_URI_STUDENTS"] = "mongodb://localhost:27017/myDatabaseStudents"
+
+mongo_teachers = PyMongo(app, uri=app.config["MONGO_URI_TEACHERS"])
+mongo_students = PyMongo(app, uri=app.config["MONGO_URI_STUDENTS"])
 
 
 def allowed_file(filename):
@@ -222,9 +227,37 @@ def textByTesseract(num):
 
 # def textByGoogleImg(num):
 
+@app.route("/")
+def home():
+    return render_template("home.html")
 
-@app.route("/", methods=["GET", "POST"])
-def index():
+@app.route("/dashboard")
+def dashboard():
+    if "username" not in session or "user_type" not in session:
+        return redirect(url_for("home"))
+
+    username = session["username"]
+    user_type = session["user_type"]
+
+    # Render the appropriate dashboard template based on user type
+    if user_type == "teacher":
+        # Assuming you have a dashboard template for teachers
+        return render_template("dashboard.html", username=username)
+    elif user_type == "student":
+        # Assuming you have a dashboard template for students
+        return render_template("dashboard.html", username=username)
+    else:
+        # Handle unknown user types or errors
+        return redirect(url_for("home"))
+
+@app.route("/upload", methods=["GET", "POST"])
+def upload():
+    if "username" not in session:
+        return redirect(url_for("home"))
+
+    username = session["username"]
+    user_type = session["user_type"]  # Assuming you set a session variable for user type (teacher/student)
+
     if request.method == "POST":
         file = request.files["file"]
         if file and allowed_file(file.filename):
@@ -243,28 +276,184 @@ def index():
                 text = textByGoogle(filepath, filename)
                 page_images, num = generateImagesFromPDF(filepath)
 
-            # text = textByGoogle(filepath, filename)
-            # Call the function to delete existing results from GCS
-            # Or, you can fetch text from GCS if it's been written there.
-            # For example: text = fetch_text_from_gcs(gcs_destination_uri)
+            # Save the data to the respective collection based on user type
+            if user_type == "teacher":
+                mongo_teachers.db.TeacherData.insert_one({
+                    "username": username,
+                    "filename": filename,
+                    "text": text,
+                    # Add other fields as needed
+                })
+            elif user_type == "student":
+                mongo_students.db.StudentData.insert_one({
+                    "username": username,
+                    "filename": filename,
+                    "text": text,
+                    # Add other fields as needed
+                })
 
-            # Extract and render individual pages of the PDF
-
-            """
-                page = pdf_document.load_page(page_number)
-                img_data = page.get_pixmap()
-                img = Image.frombytes("RGB", [img_data.width, img_data.height], img_data.samples)
-                img_path = os.path.join(app.config['UPLOAD_FOLDER'], f"page_{page_number}.png")
-                img.save(img_path)
-                page_images.append(img_path)
-            """
-
-            # Return the text to the user
+            # Return the text and page images to the user
             return render_template(
-                "index.html", text=text, page_images=page_images, filename=filename
+                "upload.html", text=text, page_images=page_images, filename=filename
             )
 
-    return render_template("index.html")
+    return render_template("upload.html")
+
+@app.route("/signup_teacher", methods=["GET", "POST"])
+def signup_teacher():
+    if request.method == "POST":
+        # Get form data
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # Check if the username is already taken
+        if mongo_teachers.db.Teachers.find_one({"username": username}):
+            flash("Username already taken. Please choose another.", "danger")
+            return redirect(url_for("signup_teacher"))
+
+        # Insert new teacher into the database
+        mongo_teachers.db.Teachers.insert_one({"username": username, "password": password, "email": email})
+        
+        # Set session variable for authentication
+        session["username"] = username
+        return redirect(url_for("login_teacher"))
+
+    return render_template("signup_teacher.html")
+
+@app.route("/signup_student", methods=["GET", "POST"])
+def signup_student():
+    if request.method == "POST":
+        # Get form data
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        # Check if the username is already taken
+        if mongo_students.db.Students.find_one({"username": username}):
+            flash("Username already taken. Please choose another.", "danger")
+            return redirect(url_for("signup_student"))
+
+        # Insert new student into the database
+        mongo_students.db.Students.insert_one({"username": username, "password": password, email: email})
+        
+        # Set session variable for authentication
+        session["username"] = username
+        return redirect(url_for("login_student"))
+
+    return render_template("signup_student.html")
+
+@app.route("/login_teacher", methods=["GET", "POST"])
+def login_teacher():
+    if request.method == "POST":
+        # Get form data
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Check if the username exists in the database
+        teacher = mongo_teachers.db.Teachers.find_one({"username": username})
+
+        if teacher:
+            # Check if the password is correct
+            if password == teacher["password"]:
+                # Set session variable for authentication
+                session["username"] = username
+                session["user_type"] = "teacher"
+                return redirect(url_for("dashboard"))
+            else:
+                flash("Incorrect password", "danger")
+                return redirect(url_for("login_teacher"))
+        else:
+            flash("Username does not exist", "danger")
+            return redirect(url_for("login_teacher"))
+
+    return render_template("login_teacher.html")
+
+@app.route("/login_student", methods=["GET", "POST"])
+def login_student():
+    if request.method == "POST":
+        # Get form data
+        username = request.form.get("username")
+        password = request.form.get("password")
+        session["user_type"] = "student"
+
+        # Check if the username exists in the database
+        student = mongo_students.db.Students.find_one({"username": username})
+
+        if student:
+            # Check if the password is correct
+            if password == student["password"]:
+                # Set session variable for authentication
+                session["username"] = username
+                return redirect(url_for("dashboard"))
+            else:
+                flash("Incorrect password", "danger")
+                return redirect(url_for("login_student"))
+        else:
+            flash("Username does not exist", "danger")
+            return redirect(url_for("login_student"))
+
+    return render_template("login_student.html")
+
+@app.route("/profile", methods=["GET", "POST"])
+def profile():
+    if "username" not in session:
+        return redirect(url_for("home"))
+
+    username = session["username"]
+
+    # Check whether the user is a teacher or student
+    is_teacher = mongo_teachers.db.Teachers.find_one({"username": username}) is not None
+
+    # Use the appropriate collection based on the user's role
+    user_collection = mongo_teachers.db.Teachers if is_teacher else mongo_students.db.Students
+
+    user = user_collection.find_one({"username": username})
+
+    if request.method == "POST":
+        # Get form data
+        first_name = request.form.get("first_name")
+        last_name = request.form.get("last_name")
+        department = request.form.get("department")
+        year = request.form.get("year")
+        semester = request.form.get("semester")
+
+        # Update user's profile details in the database
+        user_collection.update_one(
+            {"username": username},
+            {
+                "$set": {
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "department": department,
+                    "year": year,
+                    "semester": semester,
+                }
+            },
+        )
+
+        # Fetch the updated user details from the database
+        user = user_collection.find_one({"username": username})
+
+    return render_template("profile.html", user=user, is_teacher=is_teacher)
+
+@app.route("/results")
+def results():
+    if "username" not in session:
+        return redirect(url_for("home"))
+
+    # Fetch results data from the database or any other source
+    # For example, assuming you have a collection named "Results"
+    # You may need to modify this part based on your actual database structure
+    results_data = mongo.db.Results.find()
+
+    return render_template("results.html", results_data=results_data)
+
+@app.route("/logout")
+def logout():
+    session.pop("username", None)
+    return redirect(url_for("home"))
+
 
 
 @app.route("/get_page/<int:page_number>")

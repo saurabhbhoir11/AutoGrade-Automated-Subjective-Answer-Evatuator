@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <!-- Add Bootstrap styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #007bff; /* Blue color for heading */
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #2c3e50; /* Dark gray color for labels */
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff; /* Blue color for submit button */
+            color: #fff; /* White text for submit button */
+            cursor: pointer;
+            padding: 10px; /* Add padding to match Bootstrap button styles */
+        }
+
+        a {
+            color: #007bff; /* Blue color for links */
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            background-color: #dc3545; /* Red color for alerts */
+            color: #fff; /* White text for alerts */
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Student Login</h2>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-danger">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form method="post" action="{{ url_for('login_student') }}">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <input type="submit" value="Login" class="btn btn-primary"> <!-- Use Bootstrap button styles -->
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('signup_student') }}">Signup here</a></p>
+    </div>
+
+    <!-- Add Bootstrap scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
