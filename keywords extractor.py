@@ -1,11 +1,13 @@
 import tensorflow as tf
 import numpy as np
-import time
-from rake_nltk import Rake
+from keybert import KeyBERT
+import yake
 
-saved_dir = "USE"
-use_model = tf.saved_model.load(saved_dir)
-r = Rake()
+
+# saved_dir = "USE"
+# use_model = tf.saved_model.load(saved_dir)
+#
+# kw_model = KeyBERT(use_model)
 
 paragraph2 = (
     "APPLICATION AREAS OF COMPUTER VISION "
@@ -116,81 +118,18 @@ paragraph1 = (
     "Notably, several leading car manufacturers have showcased systems for autonomous driving, signaling a "
     "shift towards the imminent availability of such vehicles in the commercial market. The prospect of "
     "autonomous vehicles is poised to redefine transportation norms in the near future. "
-)  # Replace
-# with actual sentences
+)
 
-# Combine all sentences into a single list
-# all_sentences = paragraph1 + paragraph2
+# keywords1 = kw_model.extract_keywords(paragraph1, keyphrase_ngram_range=(0, 2), stop_words=None)
+# keywords2 = kw_model.extract_keywords(paragraph2, keyphrase_ngram_range=(0, 2), stop_words=None)
+# print("keywords1: \n", keywords1)
+# print()
+# print("keywords2: \n", keywords2)
 
-# Get embeddings for all sentences
-# embeddings = use_model(all_sentences)
-
-# Separate embeddings for each paragraph
-
-# embeddings_paragraph1 = embeddings[:len(paragraph1)]
-# embeddings_paragraph2 = embeddings[len(paragraph1):]
-#
-# # Calculate cosine similarity between each sentence in paragraph1 and every sentence in paragraph2
-# similarity_matrix = tf.linalg.matmul(
-#     tf.math.l2_normalize(embeddings_paragraph1, axis=1),
-#     tf.math.l2_normalize(embeddings_paragraph2, axis=1),
-#     transpose_b=True
-# )
-#
-# # Display the similarity matrix
-# print("Similarity Matrix:")
-# print(similarity_matrix.numpy())
-#
-# max_similarity_scores = tf.reduce_max(similarity_matrix, axis=1).numpy()
-# print("Maximum Similarity Scores for Each Sentence in Paragraph1:")
-# print(max_similarity_scores)
-
-paragraph1_sentences = [
-    sentence.strip() for sentence in paragraph1.split(".") if sentence
-]
-paragraph2_sentences = [
-    sentence.strip() for sentence in paragraph2.split(".") if sentence
-]
-
-print(len(paragraph1_sentences))
-print(len(paragraph2_sentences))
-
-# Initialize an array to store similarity scores
-similarity_scores = np.zeros((len(paragraph1_sentences), len(paragraph2_sentences)))
-
-# Calculate similarity scores
-for i, sentence1 in enumerate(paragraph1_sentences):
-    for j, sentence2 in enumerate(paragraph2_sentences):
-        sentence1_embedding = use_model([sentence1])[0]
-        sentence2_embedding = use_model([sentence2])[0]
-        similarity_scores[i, j] = np.inner(
-            sentence1_embedding, sentence2_embedding
-        ).flatten()[0]
-
-# Display similarity scores for i, sentence1 in enumerate(paragraph1_sentences): for j, sentence2 in enumerate(
-# paragraph2_sentences): print(f"Similarity Score between Sentence {i + 1} in Paragraph 1 and Sentence {j + 1} in
-# Paragraph 2: {similarity_scores[i, j]:.4f}")
-
-kw1 = r.extract_keywords_from_text(paragraph1)
-kw2 = r.extract_keywords_from_text(paragraph2)
-
-print(similarity_scores)
-
-max_values = np.max(similarity_scores, axis=1)
-max_indices = np.argmax(similarity_scores, axis=1)
-
-# Display the results
-for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
-    print(f"Row {i + 1}: Max Value = {max_val}, Max Index = {max_idx}")
-
-set = set()
-
-for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
-    if max_val > 0.5:
-        set.add(max_idx)
-
-
-print(set)
-print(len(set))
-
-
+kw_extractor = yake.KeywordExtractor(lan="en", n=3, top=20, features=None)
+keywords1 = kw_extractor.extract_keywords(paragraph1)
+keywords2 = kw_extractor.extract_keywords(paragraph2)
+print("keywords1: \n", keywords1)
+print(type(keywords1[0]))
+print("keywords2: \n", keywords2)
+print(type(keywords2))
