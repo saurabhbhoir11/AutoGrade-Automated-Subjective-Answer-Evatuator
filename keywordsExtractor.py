@@ -3,11 +3,10 @@ import numpy as np
 from keybert import KeyBERT
 import yake
 
+saved_dir = "USE"
+use_model = tf.saved_model.load(saved_dir)
 
-# saved_dir = "USE"
-# use_model = tf.saved_model.load(saved_dir)
-#
-# kw_model = KeyBERT(use_model)
+kw_model = KeyBERT(use_model)
 
 paragraph2 = (
     "APPLICATION AREAS OF COMPUTER VISION "
@@ -120,16 +119,37 @@ paragraph1 = (
     "autonomous vehicles is poised to redefine transportation norms in the near future. "
 )
 
-# keywords1 = kw_model.extract_keywords(paragraph1, keyphrase_ngram_range=(0, 2), stop_words=None)
-# keywords2 = kw_model.extract_keywords(paragraph2, keyphrase_ngram_range=(0, 2), stop_words=None)
-# print("keywords1: \n", keywords1)
-# print()
-# print("keywords2: \n", keywords2)
+# kw1 = kw_model.extract_keywords(paragraph1, keyphrase_ngram_range=(0, 3), top_n=20, diversity=0.8)
+# kw2 = kw_model.extract_keywords(paragraph2, keyphrase_ngram_range=(0, 3), top_n=20, diversity=0.8)
+#
+# # kw_extractor = yake.KeywordExtractor()
+# #
+# # kw1 = kw_extractor.extract_keywords(paragraph1)
+# # kw2 = kw_extractor.extract_keywords(paragraph2)
+# #
+# # # Extract unique lowercase keywords
+# keywords1 = set(i[0].lower() for i in kw1)
+# keywords2 = set(i[0].lower() for i in kw2)
+#
+# # Find common keywords
+# common_keywords = keywords1.intersection(keywords2)
+#
+# # Print the results
+# print("Keywords from Yake:")
+# print("Keywords in paragraph 1:", keywords1)
+# print("Keywords in paragraph 2:", keywords2)
+# print("Common Keywords:", common_keywords)
+class keyWords:
+    def __init__(self):
+        self.kw_model = KeyBERT(use_model)
 
-kw_extractor = yake.KeywordExtractor(lan="en", n=3, top=20, features=None)
-keywords1 = kw_extractor.extract_keywords(paragraph1)
-keywords2 = kw_extractor.extract_keywords(paragraph2)
-print("keywords1: \n", keywords1)
-print(type(keywords1[0]))
-print("keywords2: \n", keywords2)
-print(type(keywords2))
+    def extract_keywords(self, paragraph1, paragraph2):
+        self.paragraph1 = paragraph1
+        self.paragraph2 = paragraph2
+        kw1 = self.kw_model.extract_keywords(self.paragraph1, keyphrase_ngram_range=(0, 3), top_n=20, diversity=0.8)
+        kw2 = self.kw_model.extract_keywords(self.paragraph2, keyphrase_ngram_range=(0, 3), top_n=20, diversity=0.8)
+        keywords1 = set(i[0].lower() for i in kw1)
+        keywords2 = set(i[0].lower() for i in kw2)
+        common_keywords = keywords1.intersection(keywords2)
+        return len(common_keywords)/len(keywords2)
+

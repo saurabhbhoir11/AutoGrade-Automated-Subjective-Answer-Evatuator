@@ -1,10 +1,7 @@
 from flask import *
 from werkzeug.utils import secure_filename
 from pdf2image import convert_from_path
-import pytesseract
 import os
-import cv2
-import numpy as np
 from flask_pymongo import PyMongo
 from google.cloud import vision,storage
 import circleRemoval
@@ -207,23 +204,6 @@ def prerocessImage(image):
     return image
 
 
-def textByTesseract(num):
-    pytesseract.pytesseract.tesseract_cmd = (
-        r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-    )
-    text = ""
-    for i in range(0, num):
-        filename = "page_" + str(i) + ".png"
-        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        image = cv2.imread(filepath)
-        print(filepath)
-        image = prerocessImage(image)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        custom_config = r"--oem 3 --psm 6 -l eng"
-        extracted_text = pytesseract.image_to_string(image, config=custom_config)
-        text = text + extracted_text
-    return text
-
 
 # def textByGoogleImg(num):
 
@@ -270,7 +250,7 @@ def upload():
 
             if selected_option == "pytesseract":
                 page_images, num = generateImagesFromPDF(filepath)
-                text = textByTesseract(num)
+                pass
 
             elif selected_option == "google_vision":
                 text = textByGoogle(filepath, filename)
