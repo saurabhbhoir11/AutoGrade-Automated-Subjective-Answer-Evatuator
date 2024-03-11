@@ -1,0 +1,235 @@
+Q.1. B.
+Design Principles
+should not suffer from Tunnel vision-
+It should not reflect like it changing: the
+requirement when designing.
+2. Traceable to Model Analysis
+changes made must be traced in order to
+maintain quality
+3. Should not reinvent the wheel
+& Multiples things are available at & for free
+so we should not build it ourselves.
+worant communMinimize Intellectual distance
+Designing should express the working of
+the softwo are
+Exibnit Uniformity & Integration
+Uniformity and Integration should be done
+-properly in order for proper function.
+6. Accomodate changes
+9.
+should be able to made changes
+7. Degrade Gracefully
+Should degrade with time without causing
+any breaking to the softs ares.
+B. Assened or Quality
+Quality must be maintained throughout
+The process
+in future
+Review
+for errors
+continous reviewing will help in finding
+errors
+10. Design is not coding, coding is not design.
+Design means the UI/Ux, it does not mean
+programming part.
+Q.1. D.
+Online Air Reservation System
+A AIRGO
+From:
+TO D
+Book
+Date:19-2-23
+class Economy a
+AIRGO
+SEARCH
+Alters! From:
+SUPERFAST
+Price: 5000
+A AIRGO
+AIRIND
+Price 4500
+BOOKING DETAILS
+MUM
+Home Reserve
+19:00
+Passenger Info
+Name: Ashish, Bind
+TO:
+Favourites
+MUM DL
+Home Reserve Ashish i
+I Date:
+- Login
+DL
+Book
+Home Reserve
+BOOK
+AshishPin2)
+Q.2. B.
+Software Maintainence
+quality, code read
+Maintaining a softwares quality
+abuity; managing deployment etc is essen
+tial for organizations.
+• Maintenance helps in following things -
+• Helps in adding new features
+• Helps in refactoring the code base
+• usual updates & patches
+• Helps in reducing time y effort
+• Provide profit to the company
+• Helps building the legacy system in
+proper manner
+• Maintaining is must in order to keep making
+changes.
+• Maintainence involves programming knowle
+dge.
+• Writing clean, managable y readable code
+is essential for maintaining code bases
+Re-engineering
+• Re-engineering is a process in which old
+or existing system are refered to build
+a new thing
+Forsand
+Engineering
+↑
+Data
+Reconstruction
+1
+Reforring
+boumentation
+↓
+Reverse
+Engineering
+J
+code
+Reconstruction• It consist of processes like forward engineerin
+g, reverse engineering & neconstruction
+• In reverse engineering, old legacy system
+used to gather information about
+s are
+it.
+Existing
+Projects.
+Revers e
+Requirement
+specification
+Engineering
+• while on the other hand, fono and inger
+engeering implements the requirement of
+users into final projects.
+Documentation
+er
+Requirement,
+Specification.
+Forward
+Engineering
+Q.2. D.
+compute
+Project.by cyclomatic complexity
+To calculate cjclomatic complexity.
+cyclomatic = no of regions + 1
+complexity
+...
+3
+cyclomatic = E-N + 2
+complexity
+a
+= 3
+= 7-8 + 2
+3
+• cyclomatic =
+complexity
+P + |
+= 2+1
+= 3
+There is only one path which is independent
+Lonich (6)
+7/7
+... Independent path =
+
+Q.3. A. RIMM
+• It stands for pisk mitigation monitoring and
+Management
+• It is use to prevent control and manage
+the risks that occurs conic developing a
+project
+analyzing
+• It is very helpful for analyzing the risk of
+a project and to eliminate it.
+RMMM involves a for formal document for the
+implementation but RIS sheet is widely
+used instead
+RISK-ID: 1001 Date: 19/10/23
+Probablity: 504.
+Description codebase broke while making the
+feature of autoplay.
+context -
+1. changed the whole layout of the app.
+2. Introduced some bugs related to
+video player
+Mitigation/Monitoring -
+1. Lonile monitoring we found that it
+occurred due to wrong function call
+Management -
+1. For now, shift to previous version
+2. Quickly patch the bug
+Name - Ashish
+Step - Management started.•RMMM involves three phones, mitigation, manito
+ring and management.
+• In the mitigat
+Mitigation
+• Involves preventive measures Ag to reduce
+The chances of risk.
+• Done at the earliest stages
+• It involves functions like keeping the
+code base up to dated, my proper integrati
+on etc.
+G
+Monitoring -
+• In this phase, risk is monitored.
+• Behaivour of the risk is monitored in or
+der to maintain the risk history.
+• It helps in identify in g. what is happening
+due to the risk.
+Management
+• Last step of RMMM
+• After the risk is monitored, managing of
+that risk starts
+• Completely eliminating the risk is the a4
+aim of this phase.
+Q.3. C.
+Version control
+• Managing the codebase in terms of versions
+is called as version control.
+• version control helps in keeping the track of
+changes made through different version.
+• It helps in adding new features to the
+codebane or help maintaining the codebase.
+• It provides collaboration of team work
+for developers.
+• It mainly involves of -
+1. Repository (code base / folder) in which
+all the files are going to be tracked.
+2. commits - changes which are committed
+, are made permanent in the repository.
+- Helps in working in team
+and contributing to open softwares.
+3. collaboration -
+• softio are industries uses version control
+in order to track the project
+• Softwares like Git, GitHub etc provides
+this functionality.
+• Branches are used to add new features
+0
+11
+(1.0.0)
+(1+0)
+feature
+branch
+(1·1·1) (1·1·2
+version control
+(1·2·2)
+7
+↑ (1·3·2)
+Main
+branch
