@@ -1,14 +1,14 @@
-<!-- results.html -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoGrade Results</title>
+    <title>AutoGrade Upload</title>
     <!-- Add your CSS styles or include Bootstrap styles here -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='upload.css') }}">
 </head>
 <body>
 
@@ -28,10 +28,10 @@
                 <li>
                     <a href="{{ url_for('profile') }}">Profile</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="{% if session['user_type'] == 'student' %}{{ url_for('upload_student') }}{% else %}{{ url_for('upload_teacher') }}{% endif %}">Upload</a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="{{ url_for('results') }}">Results</a>
                 </li>
                 <li>
@@ -41,33 +41,20 @@
         </nav>
     </div>
 </header>
-
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h2>AutoGrade Results</h2>
-            {% if results_data %}
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Filename</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for result in results_data %}
-                            <tr>
-                                <td>{{ result.filename }}</td>
-                                <td>{{ result.text }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>No results available.</p>
-            {% endif %}
+    <h2>Upload Answer PDF</h2>
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('upload_student') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="subject">Subject:</label>
+            {{ form.subject(class="form-control") }}
         </div>
-    </div>
+        <div class="form-group">
+            <label for="file">Your Answer PDF:</label>
+            {{ form.file(class="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
 </div>
 
 <!-- Add Bootstrap JavaScript and jQuery -->

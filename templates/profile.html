@@ -28,7 +28,7 @@
                     <a href="{{ url_for('profile') }}">Profile</a>
                 </li>
                 <li>
-                    <a href="{{ url_for('upload') }}">Upload</a>
+                    <a href="{% if session['user_type'] == 'student' %}{{ url_for('upload_student') }}{% else %}{{ url_for('upload_teacher') }}{% endif %}">Upload</a>
                 </li>
                 <li>
                     <a href="{{ url_for('results') }}">Results</a>

@@ -1,11 +1,8 @@
-<!-- results.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoGrade Results</title>
+    <title>AutoGrade Dashboard</title>
     <!-- Add your CSS styles or include Bootstrap styles here -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
@@ -21,7 +18,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="{{ url_for('home') }}" class="navbar-brand">AutoGrade</a>
+            <a href="{{ url_for('dashboard') }}" class="navbar-brand">AutoGrade</a>
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
             <ul class="nav navbar-nav navbar-right">
@@ -31,7 +28,7 @@
                 <li>
                     <a href="{% if session['user_type'] == 'student' %}{{ url_for('upload_student') }}{% else %}{{ url_for('upload_teacher') }}{% endif %}">Upload</a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="{{ url_for('results') }}">Results</a>
                 </li>
                 <li>
@@ -43,33 +40,20 @@
 </header>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h2>AutoGrade Results</h2>
-            {% if results_data %}
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Filename</th>
-                            <th>Text</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for result in results_data %}
-                            <tr>
-                                <td>{{ result.filename }}</td>
-                                <td>{{ result.text }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>No results available.</p>
-            {% endif %}
+    <h2>Upload Answer Bank</h2>
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('upload_teacher') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="subject">Subject:</label>
+            {{ form.subject(class="form-control", placeholder="Enter subject") }}
         </div>
-    </div>
+        <div class="form-group">
+            <label for="file">Answer Bank PDF:</label>
+            {{ form.file(class="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
 </div>
-
 <!-- Add Bootstrap JavaScript and jQuery -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

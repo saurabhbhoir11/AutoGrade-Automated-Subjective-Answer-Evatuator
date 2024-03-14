@@ -26,7 +26,7 @@
                     <a href="{{ url_for('profile') }}">Profile</a>
                 </li>
                 <li>
-                    <a href="{{ url_for('upload') }}">Upload</a>
+                    <a href="{% if session['user_type'] == 'student' %}{{ url_for('upload_student') }}{% else %}{{ url_for('upload_teacher') }}{% endif %}">Upload</a>
                 </li>
                 <li>
                     <a href="{{ url_for('results') }}">Results</a>
@@ -38,7 +38,7 @@
         </nav>
     </div>
 </header>
-
+<img src="{{ url_for('static', filename='1694.jpg') }}" alt="Responsive Image">
 <!-- Your dashboard content goes here -->
 
 <!-- Add Bootstrap JavaScript and jQuery -->

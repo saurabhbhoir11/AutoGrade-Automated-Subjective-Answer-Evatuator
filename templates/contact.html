@@ -39,11 +39,36 @@
         </nav>
     </div>
 </header>
-<img src="{{ url_for('static', filename='1694.jpg') }}" alt="Responsive Image">
+    <div class="container mt-5">
+        <h2>Contact Us</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('contact') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control", placeholder="Enter your name") }}
+            </div>
+            <div class="form-group">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control", placeholder="Enter your email") }}
+            </div>
+            <div class="form-group">
+                {{ form.query.label(class="form-label") }}
+                {{ form.query(class="form-control", placeholder="Enter your query") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 
-<!-- Add Bootstrap JavaScript and jQuery -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <!-- Add Bootstrap JavaScript and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
