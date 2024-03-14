@@ -5,10 +5,12 @@ from wtforms.validators import DataRequired, Email
 from werkzeug.utils import secure_filename
 from flask_bcrypt import Bcrypt
 from pdf2image import convert_from_path
-import pytesseract
 import os
+<<<<<<< HEAD
 import cv2
 import re
+=======
+>>>>>>> c7999fc1637e003214e4a7fa1fd180ca58aac016
 from flask_pymongo import PyMongo
 from google.cloud import vision, storage
 import circleRemoval
@@ -208,6 +210,7 @@ def prerocessImage(image):
         image = lineRemoval.lines_removal(image)
     return image
 
+<<<<<<< HEAD
 def textByTesseract(num):
     pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
     text = ""
@@ -222,6 +225,11 @@ def textByTesseract(num):
         extracted_text = pytesseract.image_to_string(image, config=custom_config)
         text = text + extracted_text
     return text
+=======
+
+
+# def textByGoogleImg(num):
+>>>>>>> c7999fc1637e003214e4a7fa1fd180ca58aac016
 
 @app.route("/")
 def home():
@@ -284,7 +292,13 @@ def upload_teacher():
                 # Add other fields as needed
             })
 
+<<<<<<< HEAD
             flash("Answer bank successfully uploaded.", "success")
+=======
+            if selected_option == "pytesseract":
+                page_images, num = generateImagesFromPDF(filepath)
+                pass
+>>>>>>> c7999fc1637e003214e4a7fa1fd180ca58aac016
 
             return redirect(url_for("upload_teacher"))  # Redirect to the teacher upload page
 

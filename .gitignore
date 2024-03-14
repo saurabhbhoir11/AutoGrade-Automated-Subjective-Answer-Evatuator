@@ -1,6 +1,8 @@
 /venv/
 /uploads/
 /USE/
-/encrytion_key.key/
+encrytion_key.key
 /stsbenchmark/USE
 /img_preproces/test images/extracted.txt
+/pages/
+/creds.json

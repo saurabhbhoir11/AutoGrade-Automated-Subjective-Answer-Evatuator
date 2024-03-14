@@ -1,11 +1,9 @@
 import tensorflow as tf
 import numpy as np
-import time
-from rake_nltk import Rake
 
-saved_dir = "USE"
-use_model = tf.saved_model.load(saved_dir)
-r = Rake()
+
+# use_model = tf.saved_model.load(saved_dir)
+# r = Rake()
 
 paragraph2 = (
     "APPLICATION AREAS OF COMPUTER VISION "
@@ -116,7 +114,8 @@ paragraph1 = (
     "Notably, several leading car manufacturers have showcased systems for autonomous driving, signaling a "
     "shift towards the imminent availability of such vehicles in the commercial market. The prospect of "
     "autonomous vehicles is poised to redefine transportation norms in the near future. "
-)  # Replace
+)
+# Replace
 # with actual sentences
 
 # Combine all sentences into a single list
@@ -145,52 +144,100 @@ paragraph1 = (
 # print("Maximum Similarity Scores for Each Sentence in Paragraph1:")
 # print(max_similarity_scores)
 
-paragraph1_sentences = [
-    sentence.strip() for sentence in paragraph1.split(".") if sentence
-]
-paragraph2_sentences = [
-    sentence.strip() for sentence in paragraph2.split(".") if sentence
-]
+# paragraph1_sentences = [
+#     sentence.strip() for sentence in paragraph1.split(".") if sentence
+# ]
+# paragraph2_sentences = [
+#     sentence.strip() for sentence in paragraph2.split(".") if sentence
+# ]
+#
+# print(len(paragraph1_sentences))
+# print(len(paragraph2_sentences))
+#
+# # Initialize an array to store similarity scores
+# similarity_scores = np.zeros((len(paragraph1_sentences), len(paragraph2_sentences)))
+#
+# # Calculate similarity scores
+# for i, sentence1 in enumerate(paragraph1_sentences):
+#     for j, sentence2 in enumerate(paragraph2_sentences):
+#         sentence1_embedding = use_model([sentence1])[0]
+#         sentence2_embedding = use_model([sentence2])[0]
+#         similarity_scores[i, j] = np.inner(
+#             sentence1_embedding, sentence2_embedding
+#         ).flatten()[0]
+#
+# # Display similarity scores for i, sentence1 in enumerate(paragraph1_sentences): for j, sentence2 in enumerate(
+# # paragraph2_sentences): print(f"Similarity Score between Sentence {i + 1} in Paragraph 1 and Sentence {j + 1} in
+# # Paragraph 2: {similarity_scores[i, j]:.4f}")
+#
+# kw1 = r.extract_keywords_from_text(paragraph1)
+# kw2 = r.extract_keywords_from_text(paragraph2)
+#
+# print(similarity_scores)
+#
+# max_values = np.max(similarity_scores, axis=1)
+# max_indices = np.argmax(similarity_scores, axis=1)
+#
+# # Display the results
+# for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
+#     print(f"Row {i + 1}: Max Value = {max_val}, Max Index = {max_idx}")
+#
+# set = set()
+#
+# for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
+#     if max_val > 0.5:
+#         set.add(max_idx)
+#
+#
+# print(set)
+# print(len(set))
+# score = len(set) / len(paragraph2_sentences)
+# print(score)
 
-print(len(paragraph1_sentences))
-print(len(paragraph2_sentences))
 
-# Initialize an array to store similarity scores
-similarity_scores = np.zeros((len(paragraph1_sentences), len(paragraph2_sentences)))
+class USE:
+    def __init__(self, *args, **kwargs):
+        saved_dir = "USE"
+        if args:
+            self.paragraph1 = args[0]
+            self.paragraph2 = args[1]
+        self.use_model = tf.saved_model.load(saved_dir)
 
-# Calculate similarity scores
-for i, sentence1 in enumerate(paragraph1_sentences):
-    for j, sentence2 in enumerate(paragraph2_sentences):
-        sentence1_embedding = use_model([sentence1])[0]
-        sentence2_embedding = use_model([sentence2])[0]
-        similarity_scores[i, j] = np.inner(
-            sentence1_embedding, sentence2_embedding
-        ).flatten()[0]
+    def get_similarity_score(self, paragraph1, paragraph2):
+        global set
+        self.paragraph1 = paragraph1
+        self.paragraph2 = paragraph2
 
-# Display similarity scores for i, sentence1 in enumerate(paragraph1_sentences): for j, sentence2 in enumerate(
-# paragraph2_sentences): print(f"Similarity Score between Sentence {i + 1} in Paragraph 1 and Sentence {j + 1} in
-# Paragraph 2: {similarity_scores[i, j]:.4f}")
+        paragraph1_sentences = [
+            sentence.strip() for sentence in self.paragraph1.split(".") if sentence
+        ]
+        paragraph2_sentences = [
+            sentence.strip() for sentence in self.paragraph2.split(".") if sentence
+        ]
 
-kw1 = r.extract_keywords_from_text(paragraph1)
-kw2 = r.extract_keywords_from_text(paragraph2)
+        similarity_scores = np.zeros(
+            (len(paragraph1_sentences), len(paragraph2_sentences))
+        )
 
-print(similarity_scores)
+        for i, sentence1 in enumerate(paragraph1_sentences):
+            for j, sentence2 in enumerate(paragraph2_sentences):
+                sentence1_embedding = self.use_model([sentence1])[0]
+                sentence2_embedding = self.use_model([sentence2])[0]
+                similarity_scores[i, j] = np.inner(
+                    sentence1_embedding, sentence2_embedding
+                ).flatten()[0]
 
-max_values = np.max(similarity_scores, axis=1)
-max_indices = np.argmax(similarity_scores, axis=1)
+        max_values = np.max(similarity_scores, axis=1)
+        max_indices = np.argmax(similarity_scores, axis=1)
 
-# Display the results
-for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
-    print(f"Row {i + 1}: Max Value = {max_val}, Max Index = {max_idx}")
+        set = set()
 
-set = set()
+        for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
+            if max_val > 0.5:
+                set.add(max_idx)
 
-for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
-    if max_val > 0.5:
-        set.add(max_idx)
+        score = len(set) / len(paragraph2_sentences)
+        return score
 
-
-print(set)
-print(len(set))
-
-
+use = USE()
+print(use.get_similarity_score(paragraph1, paragraph2))
