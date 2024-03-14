@@ -153,3 +153,7 @@ class keyWords:
         common_keywords = keywords1.intersection(keywords2)
         return len(common_keywords)/len(keywords2)
 
+    def get_keywords(self, paragraph):
+        kw = self.kw_model.extract_keywords(paragraph, keyphrase_ngram_range=(0, 3), top_n=20, diversity=0.8)
+        return kw
+

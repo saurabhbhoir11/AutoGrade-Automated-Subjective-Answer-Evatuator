@@ -239,5 +239,9 @@ class USE:
         score = len(set) / len(paragraph2_sentences)
         return score
 
+    def get_embeddings(self, sentences):
+        embeddings = self.use_model(sentences)
+        return embeddings
+
 use = USE()
 print(use.get_similarity_score(paragraph1, paragraph2))

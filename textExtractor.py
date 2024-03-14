@@ -1,5 +1,5 @@
 from pdf2image import convert_from_path
-from google.cloud import vision_v1p2beta1 as vision  # Adjust the import statement
+from google.cloud import vision_v1p4beta1 as vision  # Adjust the import statement
 import os
 import preprocesor
 
@@ -13,7 +13,8 @@ class textExtractor:
         #     imagePath = f"pages/page_{i + 1}.png"
         #     image.save(imagePath, "PNG")
 
-        text = "" # Extract text from the images
+        text = ""
+        # Extract text from the images
         # for i in range(len(images)):
         #     imagePath = f"pages/page_{i + 1}.png"
         #     with open(imagePath, "rb") as imageFile:
@@ -43,7 +44,7 @@ class textExtractor:
 
 if __name__ == "__main__":
     extractor = textExtractor()
-    text = extractor.extractText("C:/Users/saura/Downloads/15_33.pdf")
+    text = extractor.extractText("C:/Users/saura/Downloads/23_28.pdf")
     with open("text.txt", "w", encoding="utf-8") as file:
         file.write(text)
     print(text)

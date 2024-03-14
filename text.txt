@@ -1,235 +1,199 @@
-Q.1. B.
-Design Principles
-should not suffer from Tunnel vision-
-It should not reflect like it changing: the
-requirement when designing.
-2. Traceable to Model Analysis
-changes made must be traced in order to
-maintain quality
-3. Should not reinvent the wheel
-& Multiples things are available at & for free
-so we should not build it ourselves.
-worant communMinimize Intellectual distance
-Designing should express the working of
-the softwo are
-Exibnit Uniformity & Integration
-Uniformity and Integration should be done
--properly in order for proper function.
-6. Accomodate changes
-9.
-should be able to made changes
-7. Degrade Gracefully
-Should degrade with time without causing
-any breaking to the softs ares.
-B. Assened or Quality
-Quality must be maintained throughout
-The process
-in future
-Review
-for errors
-continous reviewing will help in finding
-errors
-10. Design is not coding, coding is not design.
-Design means the UI/Ux, it does not mean
-programming part.
-Q.1. D.
-Online Air Reservation System
-A AIRGO
-From:
-TO D
-Book
-Date:19-2-23
-class Economy a
-AIRGO
-SEARCH
-Alters! From:
-SUPERFAST
-Price: 5000
-A AIRGO
-AIRIND
-Price 4500
-BOOKING DETAILS
-MUM
-Home Reserve
-19:00
-Passenger Info
-Name: Ashish, Bind
-TO:
-Favourites
-MUM DL
-Home Reserve Ashish i
-I Date:
-- Login
-DL
-Book
-Home Reserve
-BOOK
-AshishPin2)
-Q.2. B.
-Software Maintainence
-quality, code read
-Maintaining a softwares quality
-abuity; managing deployment etc is essen
-tial for organizations.
-• Maintenance helps in following things -
-• Helps in adding new features
-• Helps in refactoring the code base
-• usual updates & patches
-• Helps in reducing time y effort
-• Provide profit to the company
-• Helps building the legacy system in
-proper manner
-• Maintaining is must in order to keep making
-changes.
-• Maintainence involves programming knowle
-dge.
-• Writing clean, managable y readable code
-is essential for maintaining code bases
-Re-engineering
-• Re-engineering is a process in which old
-or existing system are refered to build
-a new thing
-Forsand
-Engineering
+NNO.
+Q2B
+(begin answer for each question on a new page)
+IT and OT Responsibilities in IOT Reference Model:
+1. In the figure below, we can see that the IT and
+OT Responsibilities in IoT Reference Model are
+shown in the form of a stack of many layers.
+2. The upper layers of the stack represent the
+I work that IT does with respect to the newer IoT
+systems.
+3. The lower layers represent the responsibilities
+of OT with respect to the system.
+4. Earlier, IT mainly deals with storing, analysing,
+cleaning and processing the data that is collected.
+5. The collection of data, on the other hand, is
+done by physical devices and sensors present
+out in the environment.⑦Collection and.
+Processes
+Devices
+Application
+5 Data Aggregation.
+1 M
 ↑
-Data
-Reconstruction
-1
-Reforring
-boumentation
-↓
-Reverse
-Engineering
-J
-code
-Reconstruction• It consist of processes like forward engineerin
-g, reverse engineering & neconstruction
-• In reverse engineering, old legacy system
-used to gather information about
-s are
-it.
-Existing
-Projects.
-Revers e
-Requirement
-specification
-Engineering
-• while on the other hand, fono and inger
-engeering implements the requirement of
-users into final projects.
-Documentation
-er
-Requirement,
-Specification.
-Forward
-Engineering
-Q.2. D.
-compute
-Project.by cyclomatic complexity
-To calculate cjclomatic complexity.
-cyclomatic = no of regions + 1
-complexity
-...
-3
-cyclomatic = E-N + 2
-complexity
-a
-= 3
-= 7-8 + 2
-3
-• cyclomatic =
-complexity
-P + |
-= 2+1
-= 3
-There is only one path which is independent
-Lonich (6)
-7/7
-... Independent path =
-
-Q.3. A. RIMM
-• It stands for pisk mitigation monitoring and
-Management
-• It is use to prevent control and manage
-the risks that occurs conic developing a
-project
-analyzing
-• It is very helpful for analyzing the risk of
-a project and to eliminate it.
-RMMM involves a for formal document for the
-implementation but RIS sheet is widely
-used instead
-RISK-ID: 1001 Date: 19/10/23
-Probablity: 504.
-Description codebase broke while making the
-feature of autoplay.
-context -
-1. changed the whole layout of the app.
-2. Introduced some bugs related to
-video player
-Mitigation/Monitoring -
-1. Lonile monitoring we found that it
-occurred due to wrong function call
-Management -
-1. For now, shift to previous version
-2. Quickly patch the bug
-Name - Ashish
-Step - Management started.•RMMM involves three phones, mitigation, manito
-ring and management.
-• In the mitigat
-Mitigation
-• Involves preventive measures Ag to reduce
-The chances of risk.
-• Done at the earliest stages
-• It involves functions like keeping the
-code base up to dated, my proper integrati
-on etc.
-G
-Monitoring -
-• In this phase, risk is monitored.
-• Behaivour of the risk is monitored in or
-der to maintain the risk history.
-• It helps in identify in g. what is happening
-due to the risk.
-Management
-• Last step of RMMM
-• After the risk is monitored, managing of
-that risk starts
-• Completely eliminating the risk is the a4
-aim of this phase.
-Q.3. C.
-Version control
-• Managing the codebase in terms of versions
-is called as version control.
-• version control helps in keeping the track of
-changes made through different version.
-• It helps in adding new features to the
-codebane or help maintaining the codebase.
-• It provides collaboration of team work
-for developers.
-• It mainly involves of -
-1. Repository (code base / folder) in which
-all the files are going to be tracked.
-2. commits - changes which are committed
-, are made permanent in the repository.
-- Helps in working in team
-and contributing to open softwares.
-3. collaboration -
-• softio are industries uses version control
-in order to track the project
-• Softwares like Git, GitHub etc provides
-this functionality.
-• Branches are used to add new features
-0
-11
-(1.0.0)
-(1+0)
-feature
-branch
-(1·1·1) (1·1·2
-version control
-(1·2·2)
-7
-↑ (1·3·2)
-Main
-branch
+IT Query Data
+Based at rest
+Not
+atrest real-time
+3 Data Accumulation
+OT Data Data Real-
+Time
+Based motion
+m
+Edge
+(Sensors)
+③Edge Computing
+②Connectivity.
+③Physical Devices
+and Sensors
+Figure - IT & OT Responsibilities in IoT Reference Model
+6. The model is divided into seven layers, all of
+various purposes.
+7. The 1st layer collects all the data, in
+real-time, from the physical environment.
+8. The second layer connects the physical layer
+to the internet.
+9. Since, the data that is being collected can be
+extremely huge in quantity, it is temporarily
+stored and then slowly small quantities of
+data is sendt to the IT layers.
+10. This is done because the real-time data is
+huge and the processors and servers at the
+IT end would not be able to take that
+amount of load.
+11. This is why the OT end of the stack has
+data in motion and the IT end has data TA
+at rest.
+eg.
+12. After the data is sent received by the
+servers, it is analysed. For 1 A weather
+sensory sends the #wco current weather
+conditions to the server
++
+in turn the
+server processes the data and uses it
+to make a weather forecasting application.Q3A
+www.payo)
+RFID:
+1. RFID refers to Radio Frequency Identification.
+2. It consists of a tag that is
+of an integrated circuit and
+made up
+an antenna.
+3. Another important module of the system is
+the reader.
+4. The tag (also known as transponder) is
+attached to the object that is being identified.
+5. The reader queries the tag be by sending
+Radio Frequency (RF) waves to identify it.
+6. RFIDs are made using multiple frequencies,
+namely; low frequency, high frequency,
+ultra high frequency, microwaves frequency, etc
+7. Low frequency (LF) RFIDS were deployed
+first for high-value, short-range industrial
+appliances and car immobilizer.
+8. Low frequency REID, have low data ranges
+and low data rates.
+9. High frequency RFIDs have high data rates
+and longer data ranges.
+10. Ultra High frequency RFIDs have even higher
+data = ranges and data rates but they cannot
+be used near metallic objects, water and
+human bodies.
+11. Principle of RFID:
+voltage
+A copper coll of is attached to a power sources
+and due to the impedance it experiences,
+a voltage is developed accross its terminals.
+We can attach a capacitor parallel to this
+coil to increase its voltage. We will call
+this the primary coil. Now, we bring another
+copper coil near the primary coll. This is the
+secondary coil. The secondary coil experiences.
+an emf from the primary coill and hence,
+a voltage developed accross its terminals.
+We connect a load resistor to thesecondary coil and current starts
+I to flow in the secondary coil. This
+flow of current results in the primary
+coll experiencing a back emf
+(electromotive
+force). This is how wt we can see
+find what device is attached to the
+secondary coll, by measuring the voltage
+across the primary coil.
+Primary
+Secondary
+vis
+Transformer
+Fulll
+Load
+resistor
+12. Applications of RFID in IOT !
+a) Fast Tags.
+: Government uses RFIDs to attached
+to cars in order to pay tolls, instead
+of the old way by stopping
+b) Libraries : Books are attached with RFIDS
+to make it easier to keep and inventory
+e of books and to find their information
+easily.
+c) Identification & Tracking: RFIDs can be
+attached to animals in order to keep
+track of them.
+aQ1C
+(Begin answer for each question on a new page)
+• Smart Object with reference to IOT:
+Tiny Low Power
+Computer
+Sensors
+Actuator
+сри
+Memory
+•Communication
+devices
+-Power Supply
+Figure-Smart object # and its
+Components
+A smart object is an object that can
+all the jobs like collecting data, performing
+actions, storing data, communicating with
+other devices, etc.
+2. A smart object consists of a the
+following:
+eg:
+а
+a) Sensors :- These help in collecting data
+from the object's environments. For
+sensor for an automated car would be
+the odometer, etc
+b) Actuators 1- These perform physical tasks
+that they are instructed to do.
+c) Communication devices :- These communicate
+with other devices to get instructions and
+send data.
+d) Power Supply:- This is to supply power
+for performing all the tasks.Q1A
+IOT is defined as the techology where
+physical or virtual "things" have identities.
+physical attributes and virtual personalities
+and that they work being the standard
+and interoperable communication protocols.
+Characteristics of IOT :
+a) Adaptability:
+(b) Interoperable:
+(c) Communication:
+d) Network
+based on
+Q2D
+Security as a driver behind network
+architecture.
+1. Security is a non-negotiable part
+of any IT infrastructure..
+2. Security experts go to great lengths
+to keep their systems, servers and
+networks secure from malicious
+attacks.
+3. But in case of IoT devices, security
+poses a great threat.
+4. This is because the IoT devices not
+only require virtual security but also
+physical security as the sensors, etc) are
+present out in the environment.+
+Q3C
+STARI WOREEIRO BENE
+(Begin answer for each question on a new page)
+Bluetooth standard In connection with
+IOT:
+1. Bluetooth is a low energy communication
+technology that also has low range (100 m).
+2.

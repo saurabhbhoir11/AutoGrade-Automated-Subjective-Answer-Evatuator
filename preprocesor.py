@@ -11,6 +11,8 @@ def preprocess(image):
     # Denoising
     denoised_img_nlm = cv2.fastNlMeansDenoising(norm_img, None, 8, 31, 7)  # Adjust parameters as needed
     denoised_img_final = cv2.bilateralFilter(denoised_img_nlm, 100, 75, 75)  # Further denoising with bilateral filter
+    # cv2.imshow("Denoised Image", denoised_img_final)
+    # cv2.waitKey(0)
 
     _, output = cv2.imencode('.png', denoised_img_final)
 

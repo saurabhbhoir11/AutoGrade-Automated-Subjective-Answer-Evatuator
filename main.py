@@ -1,31 +1,26 @@
 from flask import *
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, SelectField, FileField
-from wtforms.validators import DataRequired, Email
 from werkzeug.utils import secure_filename
-from flask_bcrypt import Bcrypt
 from pdf2image import convert_from_path
 import os
-<<<<<<< HEAD
-import cv2
-import re
-=======
->>>>>>> c7999fc1637e003214e4a7fa1fd180ca58aac016
 from flask_pymongo import PyMongo
-from google.cloud import vision, storage
-import circleRemoval
-import lineRemoval
+import textExtractor
+import use
+import keywordsExtractor
+import scoreGenerator
+import answerSeparator
+import numpy as np
+import pandas as pd
+import re
 
 app = Flask(__name__)
-bcrypt = Bcrypt(app)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
 mongo = PyMongo(app)
-app.config['SECRET_KEY'] = 'your_secret_key'
+app.config["SECRET_KEY"] = "your_secret_key"
 
 app.config["UPLOAD_FOLDER"] = "uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"pdf"}
-
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "creds.json"
+
 
 app.config["MONGO_URI_TEACHERS"] = "mongodb://localhost:27017/myDatabaseTeachers"
 app.config["MONGO_URI_STUDENTS"] = "mongodb://localhost:27017/myDatabaseStudents"
@@ -33,27 +28,19 @@ app.config["MONGO_URI_STUDENTS"] = "mongodb://localhost:27017/myDatabaseStudents
 mongo_teachers = PyMongo(app, uri=app.config["MONGO_URI_TEACHERS"])
 mongo_students = PyMongo(app, uri=app.config["MONGO_URI_STUDENTS"])
 
-class ContactForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    query = TextAreaField('Query', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+textExtractor = textExtractor.textExtractor()
+use = use.USE()
+keywordsExtractor = keywordsExtractor.keyWords()
+scoreGenerator = scoreGenerator.scoreGenerator()
+answerSeparator = answerSeparator.answerSeparator()
 
-class TeacherUploadForm(FlaskForm):
-    subject = StringField("Subject", validators=[DataRequired()])
-    file = FileField("Answer Bank", validators=[DataRequired()])
-    submit = SubmitField("Upload")
-
-class StudentUploadForm(FlaskForm):
-    subject = SelectField("Subject", validators=[DataRequired()])
-    file = FileField("Answer PDF", validators=[DataRequired()])
-    submit = SubmitField("Upload")
 
 def allowed_file(filename):
     return (
         "." in filename
         and filename.rsplit(".", 1)[1].lower() in app.config["ALLOWED_EXTENSIONS"]
     )
+
 
 def save_to_mongo(text, filename):
     # Access the MongoDB collection (create it if it doesn't exist)
@@ -68,19 +55,21 @@ def save_to_mongo(text, filename):
 
     return jsonify({"message": "Data saved to MongoDB successfully"})
 
-def delete_existing_results(gcs_destination_uri):
-    storage_client = storage.Client()
-    match = re.match(r"gs://([^/]+)/(.+)", gcs_destination_uri)
-    bucket_name = match.group(1)
-    prefix = match.group(2)
-    bucket = storage_client.get_bucket(bucket_name)
 
-    # List and delete objects with the given prefix
-    for blob in list(bucket.list_blobs(prefix=prefix)):
-        blob.delete()
+# def delete_existing_results(gcs_destination_uri):
+#     storage_client = storage.Client()
+#     match = re.match(r"gs://([^/]+)/(.+)", gcs_destination_uri)
+#     bucket_name = match.group(1)
+#     prefix = match.group(2)
+#     bucket = storage_client.get_bucket(bucket_name)
+#
+#     # List and delete objects with the given prefix
+#     for blob in list(bucket.list_blobs(prefix=prefix)):
+#         blob.delete()
+
 
 # noinspection PyTypeChecker
-def async_detect_document(filepath, gcs_destination_uri):
+'''def async_detect_document(filepath, gcs_destination_uri):
     text = ""
     """OCR with PDF/TIFF as source files on GCS"""
     import json
@@ -151,23 +140,33 @@ def async_detect_document(filepath, gcs_destination_uri):
         print(blob.name)
 
     # Process text from all output files
+    # for output in blob_list:
+    #     json_string = output.download_as_bytes().decode("utf-8")
+    #     response = json.loads(json_string)
+    #
+    #     # Extract text from each page and concatenate it to the 'text' variable
+    #     for page_response in response["responses"]:
+    #         annotation = page_response["fullTextAnnotation"]
+    #         text += annotation["text"] + "\n"  # Add a newline between pages
     for output in blob_list:
         json_string = output.download_as_text()
-        response = json.loads(json_string)
+    response = json.loads(json_string)
 
-        # Extract text line by line from each page
-        for page_response in response["responses"]:
-            annotation = page_response.get("fullTextAnnotation", {})
-            for page in annotation.get("pages", []):
-                for block in page.get("blocks", []):
-                    for paragraph in block.get("paragraphs", []):
-                        for word_info in paragraph.get("words", []):
-                            word = "".join([symbol["text"] for symbol in word_info.get("symbols", [])])
-                            text += word + " "
-                        text = text.rstrip()  # Remove trailing space
-                        text += "\n"  # Add a newline between paragraphs
+    # Extract text line by line from each page
+    for page_response in response["responses"]:
+        annotation = page_response.get("fullTextAnnotation", {})
+        for page in annotation.get("pages", []):
+            for block in page.get("blocks", []):
+                for paragraph in block.get("paragraphs", []):
+                    for word_info in paragraph.get("words", []):
+                        word = "".join([symbol["text"] for symbol in word_info.get("symbols", [])])
+                        text += word + " "
+                    text = text.rstrip()  # Remove trailing space
+                    text += "\n"  # Add a newline between paragraphs
+
 
     return text
+
 
 def textByGoogle(filepath, filename):
     gcs_destination_uri = "gs://autograde_papers/results"
@@ -176,10 +175,13 @@ def textByGoogle(filepath, filename):
     # Call the function to extract text from the PDF and store it
     async_detect_document(filepath, gcs_destination_uri)
 
+    # Fetch the text from GCS or MongoDB (whichever you prefer)
+
     # Optionally, you can fetch text from MongoDB here if you've stored it there.
     text = async_detect_document(filepath, gcs_destination_uri)
     save_to_mongo(text, filename)
-    return text
+    return text'''
+
 
 def clear_upload_folder():
     folder_path = app.config["UPLOAD_FOLDER"]
@@ -188,12 +190,12 @@ def clear_upload_folder():
         if os.path.isfile(file_path):
             os.remove(file_path)
         elif os.path.isdir(file_path):
-
-
             import shutil
+
             shutil.rmtree(file_path)
 
-def generateImagesFromPDF(filepath):
+
+"""def generateImagesFromPDF(filepath):
     images = convert_from_path(filepath)
     num = 0
     page_images = []
@@ -203,48 +205,54 @@ def generateImagesFromPDF(filepath):
         page_images.append(img_path)
         num = num + 1
     return page_images, num
+"""
 
-def prerocessImage(image):
-    image = circleRemoval.page_hole_removal(image)
-    for _ in range(10):
-        image = lineRemoval.lines_removal(image)
-    return image
 
-<<<<<<< HEAD
-def textByTesseract(num):
-    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-    text = ""
-    for i in range(0, num):
-        filename = "page_" + str(i) + ".png"
-        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        image = cv2.imread(filepath)
-        print(filepath)
-        image = prerocessImage(image)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        custom_config = r"--oem 3 --psm 6 -l eng"
-        extracted_text = pytesseract.image_to_string(image, config=custom_config)
-        text = text + extracted_text
-    return text
-=======
+def evaluate(filepath):
+    scores = pd.DataFrame(columns=["Question", "Score"])
+    text = textExtractor.extractText(filepath)
+    answers = answerSeparator.parse_questions(text)
+    result = scoreGenerator.getEmbeddings(answers)
+    output = []
+    for key in result:
+        output.append((key, result[key][0], result[key][1]))
+    return output
 
 
 # def textByGoogleImg(num):
->>>>>>> c7999fc1637e003214e4a7fa1fd180ca58aac016
 
-@app.route("/")
+"""@app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html")"""
 
-@app.route('/contact', methods=['GET', 'POST'])
-def contact():
-    form = ContactForm()
 
-    if form.validate_on_submit():
-        # Process the form data (for now, just display a flash message)
-        flash('Query submitted successfully!, We will get in touch with you soon', 'success')
-        return redirect(url_for('contact'))
+@app.route("/", methods=["GET", "POST"])
+def upload():
+    if request.method == "POST":
+        name = request.form.get("name")
+        session["name"] = name
+        email = request.form.get("email")
+        session["email"] = email
+        dep = request.form.get("dep")
+        session["dep"] = dep
+        subject = request.form.get("subject")
+        session["subject"] = subject
+        file = request.files["file"]
+        if file and allowed_file(file.filename):
+            clear_upload_folder()
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            file.save(filepath)
+            evaluate(filepath)
+            return redirect(url_for("result"))
 
-    return render_template('contact.html', form=form)
+    return render_template("form.html")
+
+
+@app.route("/result")
+def result():
+    return render_template("result.html")
+
 
 @app.route("/dashboard")
 def dashboard():
@@ -255,96 +263,66 @@ def dashboard():
     user_type = session["user_type"]
 
     # Render the appropriate dashboard template based on user type
-    if user_type == "teacher" or user_type == "student":
-        # Assuming you have a dashboard template for teachers and students
+    if user_type == "teacher":
+        # Assuming you have a dashboard template for teachers
+        return render_template("dashboard.html", username=username)
+    elif user_type == "student":
+        # Assuming you have a dashboard template for students
         return render_template("dashboard.html", username=username)
     else:
         # Handle unknown user types or errors
         return redirect(url_for("home"))
 
-# Teacher Upload Page Route
-@app.route("/upload_teacher", methods=["GET", "POST"])
-def upload_teacher():
+
+"""@app.route("/upload", methods=["GET", "POST"])
+def upload():
     if "username" not in session:
         return redirect(url_for("home"))
 
     username = session["username"]
-    user_type = session["user_type"]
+    user_type = session["user_type"]  # Assuming you set a session variable for user type (teacher/student)
 
-    form = TeacherUploadForm(request.form)  # Assuming you have a form class for teacher upload
-
-    if request.method == "POST" and form.validate_on_submit():
+    if request.method == "POST":
         file = request.files["file"]
-        subject = form.subject.data  # Get the subject entered by the teacher
-
         if file and allowed_file(file.filename):
             clear_upload_folder()
             filename = secure_filename(file.filename)
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(filepath)
 
-            # Save the answer bank data to the teacher's collection
-            mongo_teachers.db.AnswerBank.insert_one({
-                "username": username,
-                "filename": filename,
-                "subject": subject,
-                "file_path": filepath
-                # Add other fields as needed
-            })
+            selected_option = request.form.get("extraction_option")
 
-<<<<<<< HEAD
-            flash("Answer bank successfully uploaded.", "success")
-=======
             if selected_option == "pytesseract":
                 page_images, num = generateImagesFromPDF(filepath)
                 pass
->>>>>>> c7999fc1637e003214e4a7fa1fd180ca58aac016
 
-            return redirect(url_for("upload_teacher"))  # Redirect to the teacher upload page
+            elif selected_option == "google_vision":
+                text = textByGoogle(filepath, filename)
+                page_images, num = generateImagesFromPDF(filepath)
 
-    return render_template("upload_teacher.html", form=form)
+            # Save the data to the respective collection based on user type
+            if user_type == "teacher":
+                mongo_teachers.db.TeacherData.insert_one({
+                    "username": username,
+                    "filename": filename,
+                    "text": text,
+                    # Add other fields as needed
+                })
+            elif user_type == "student":
+                mongo_students.db.StudentData.insert_one({
+                    "username": username,
+                    "filename": filename,
+                    "text": text,
+                    # Add other fields as needed
+                })
 
-# Student Upload Page Route
-@app.route("/upload_student", methods=["GET", "POST"])
-def upload_student():
-    if "username" not in session:
-        return redirect(url_for("home"))
+            # Return the text and page images to the user
+            return render_template(
+                "upload.html", text=text, page_images=page_images, filename=filename
+            )
 
-    username = session["username"]
-    user_type = session["user_type"]
+    return render_template("upload.html")"""
 
-    # Fetch subjects for the student to choose from
-    subjects = mongo_teachers.db.AnswerBank.distinct("subject")
-
-    form = StudentUploadForm(request.form)  # Assuming you have a form class for student upload
-
-    # Update the subject choices in the form
-    form.subject.choices = [(subject, subject) for subject in subjects]
-
-    if request.method == "POST" and form.validate_on_submit():
-        file = request.files["file"]
-        subject = form.subject.data
-
-        if file and allowed_file(file.filename):
-            clear_upload_folder()
-            filename = secure_filename(file.filename)
-            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            file.save(filepath)
-
-            # Save the student's answer PDF along with the subject
-            mongo_students.db.StudentAnswers.insert_one({
-                "username": username,
-                "filename": filename,
-                "subject": subject,
-                "file_path": filepath
-                # Add other fields as needed
-            })
-
-            flash("Answer PDF successfully uploaded.", "success")
-
-            return redirect(url_for("upload_student"))  # Redirect to the student upload page
-
-    return redirect(url_for("upload_student", form=form))
 
 @app.route("/signup_teacher", methods=["GET", "POST"])
 def signup_teacher():
@@ -358,22 +336,18 @@ def signup_teacher():
         if mongo_teachers.db.Teachers.find_one({"username": username}):
             flash("Username already taken. Please choose another.", "danger")
             return redirect(url_for("signup_teacher"))
-        
-        if not is_strong_password(password):
-            flash("Password is weak. It should contain at least 8 characters, including uppercase, lowercase, and digits.", "danger")
-            return redirect(url_for("signup_teacher"))
-
-        # Hash the password using bcrypt
-        hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
         # Insert new teacher into the database
-        mongo_teachers.db.Teachers.insert_one({"username": username, "password": hashed_password, "email": email})
-        
+        mongo_teachers.db.Teachers.insert_one(
+            {"username": username, "password": password, "email": email}
+        )
+
         # Set session variable for authentication
         session["username"] = username
         return redirect(url_for("login_teacher"))
 
     return render_template("signup_teacher.html")
+
 
 @app.route("/signup_student", methods=["GET", "POST"])
 def signup_student():
@@ -387,23 +361,18 @@ def signup_student():
         if mongo_students.db.Students.find_one({"username": username}):
             flash("Username already taken. Please choose another.", "danger")
             return redirect(url_for("signup_student"))
-        
-        if not is_strong_password(password):
-            flash("Password is weak. It should contain at least 8 characters, including uppercase, lowercase, and digits.", "danger")
-            return redirect(url_for("signup_student"))
-
-        hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
         # Insert new student into the database
-        mongo_students.db.Students.insert_one({"username": username, "password": hashed_password, email: email})
-        
+        mongo_students.db.Students.insert_one(
+            {"username": username, "password": password, email: email}
+        )
+
         # Set session variable for authentication
         session["username"] = username
         return redirect(url_for("login_student"))
 
-    return render_template
+    return render_template("signup_student.html")
 
-("signup_student.html")
 
 @app.route("/login_teacher", methods=["GET", "POST"])
 def login_teacher():
@@ -416,8 +385,8 @@ def login_teacher():
         teacher = mongo_teachers.db.Teachers.find_one({"username": username})
 
         if teacher:
-            # Check if the password is correct using bcrypt
-            if bcrypt.check_password_hash(teacher["password"], password):
+            # Check if the password is correct
+            if password == teacher["password"]:
                 # Set session variable for authentication
                 session["username"] = username
                 session["user_type"] = "teacher"
@@ -431,22 +400,23 @@ def login_teacher():
 
     return render_template("login_teacher.html")
 
+
 @app.route("/login_student", methods=["GET", "POST"])
 def login_student():
     if request.method == "POST":
         # Get form data
         username = request.form.get("username")
         password = request.form.get("password")
+        session["user_type"] = "student"
 
         # Check if the username exists in the database
         student = mongo_students.db.Students.find_one({"username": username})
 
         if student:
             # Check if the password is correct
-            if bcrypt.check_password_hash(student["password"], password):
+            if password == student["password"]:
                 # Set session variable for authentication
                 session["username"] = username
-                session["user_type"] = "student"
                 return redirect(url_for("dashboard"))
             else:
                 flash("Incorrect password", "danger")
@@ -456,6 +426,7 @@ def login_student():
             return redirect(url_for("login_student"))
 
     return render_template("login_student.html")
+
 
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
@@ -468,7 +439,9 @@ def profile():
     is_teacher = mongo_teachers.db.Teachers.find_one({"username": username}) is not None
 
     # Use the appropriate collection based on the user's role
-    user_collection = mongo_teachers.db.Teachers if is_teacher else mongo_students.db.Students
+    user_collection = (
+        mongo_teachers.db.Teachers if is_teacher else mongo_students.db.Students
+    )
 
     user = user_collection.find_one({"username": username})
 
@@ -499,26 +472,11 @@ def profile():
 
     return render_template("profile.html", user=user, is_teacher=is_teacher)
 
-# Update the results route in your Flask application
+
 @app.route("/results")
 def results():
     if "username" not in session:
         return redirect(url_for("home"))
-
-    username = session["username"]
-    user_type = session["user_type"]
-
-    # Fetch results data from the database or any other source
-    # Assuming you have a collection named "Results" (you may need to modify this part)
-    # You should fetch results based on the user type (teacher or student)
-    results_data = None
-    if user_type == "teacher":
-        results_data = mongo_teachers.db.TeacherData.find({"username": username})
-    elif user_type == "student":
-        results_data = mongo_students.db.StudentData.find({"username": username})
-
-    return render_template("results.html", results_data=results_data)
-
 
     # Fetch results data from the database or any other source
     # For example, assuming you have a collection named "Results"
@@ -534,20 +492,11 @@ def logout():
     return redirect(url_for("home"))
 
 
-
 @app.route("/get_page/<int:page_number>")
 def get_page(page_number):
     img_path = os.path.join(app.config["UPLOAD_FOLDER"], f"page_{page_number}.png")
     return send_file(img_path, mimetype="image/png")
 
-
-def is_strong_password(password):
-    """
-    Check if the password is strong (contains at least 8 characters, including uppercase, lowercase, and digits).
-    """
-    if len(password) < 8 or not re.search("[a-z]", password) or not re.search("[A-Z]", password) or not re.search("[0-9]", password):
-        return False
-    return True
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
