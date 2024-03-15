@@ -42,10 +42,10 @@ class textExtractor:
         return text
 
 
-if __name__ == "__main__":
-    extractor = textExtractor()
-    text = extractor.extractText("C:/Users/saura/Downloads/23_28.pdf")
-    with open("text.txt", "w", encoding="utf-8") as file:
-        file.write(text)
-    print(text)
+# if __name__ == "__main__":
+#     extractor = textExtractor()
+#     text = extractor.extractText("C:/Users/saura/Downloads/23_28.pdf")
+#     with open("text.txt", "w", encoding="utf-8") as file:
+#         file.write(text)
+#     print(text)
     # extractor.extractText("sample_docs/Doc2.pdf")

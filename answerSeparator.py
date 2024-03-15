@@ -45,10 +45,10 @@ Q3B Implement XOR function using McCulloch-Pitt neuron
 Q3C Implement AND function using perceptron rule
 """
 
-if __name__ == "__main__":
-    separator = answerSeparator()
-    with open("text.txt", "r", encoding="utf-8") as file:
-        text = file.read()
-    text = text
-    questions = separator.parse_questions(text)
-    pprint.pprint(questions)
+# if __name__ == "__main__":
+#     separator = answerSeparator()
+#     with open("text.txt", "r", encoding="utf-8") as file:
+#         text = file.read()
+#     text = text
+#     questions = separator.parse_questions(text)
+#     pprint.pprint(questions)

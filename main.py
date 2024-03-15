@@ -161,7 +161,7 @@ def save_to_mongo(text, filename):
                     for word_info in paragraph.get("words", []):
                         word = "".join([symbol["text"] for symbol in word_info.get("symbols", [])])
                         text += word + " "
-                    text = text.rstrip()  # Remove trailing space
+                    #text = text.rstrip()  # Remove trailing space
                     text += "\n"  # Add a newline between paragraphs
 
 
@@ -179,7 +179,7 @@ def textByGoogle(filepath, filename):
 
     # Optionally, you can fetch text from MongoDB here if you've stored it there.
     text = async_detect_document(filepath, gcs_destination_uri)
-    save_to_mongo(text, filename)
+    #save_to_mongo(text, filename)
     return text'''
 
 
@@ -216,6 +216,7 @@ def evaluate(filepath):
     output = []
     for key in result:
         output.append((key, result[key][0], result[key][1]))
+    print(output)
     return output
 
 

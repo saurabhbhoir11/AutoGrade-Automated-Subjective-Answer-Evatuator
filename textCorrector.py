@@ -104,9 +104,9 @@ class SpellingReplacer:
         return output_string.strip()
 
 # Remove numbering and bullet points
-if __name__ == "__main__":
-    replacer = SpellingReplacer()
-    corrected_string = replacer.replace_in_string(input_text)
-    pprint.pprint(corrected_string)
+# if __name__ == "__main__":
+#     replacer = SpellingReplacer()
+#     corrected_string = replacer.replace_in_string(input_text)
+#     pprint.pprint(corrected_string)
 
 # print(output_text)

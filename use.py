@@ -243,5 +243,5 @@ class USE:
         embeddings = self.use_model(sentences)
         return embeddings
 
-use = USE()
-print(use.get_similarity_score(paragraph1, paragraph2))
+# use = USE()
+# print(use.get_similarity_score(paragraph1, paragraph2))
