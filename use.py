@@ -197,14 +197,14 @@ paragraph1 = (
 
 class USE:
     def __init__(self, *args, **kwargs):
+        self.dataset = set()
         saved_dir = "USE"
         if args:
             self.paragraph1 = args[0]
             self.paragraph2 = args[1]
         self.use_model = tf.saved_model.load(saved_dir)
 
-    def get_similarity_score(self, paragraph1, paragraph2):
-        global set
+    def get_similarity_score(self, paragraph1, paragraph2, question):
         self.paragraph1 = paragraph1
         self.paragraph2 = paragraph2
 
@@ -230,13 +230,24 @@ class USE:
         max_values = np.max(similarity_scores, axis=1)
         max_indices = np.argmax(similarity_scores, axis=1)
 
-        set = set()
 
         for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
-            if max_val > 0.5:
-                set.add(max_idx)
-
-        score = len(set) / len(paragraph2_sentences)
+            if max_val > 0.4:
+                self.dataset.add(max_idx)
+        print(question)
+        print(self.dataset)
+        if question in ["2A", "2B", "3A", "3B"]:
+            score = len(self.dataset) / 13
+            if score > 1:
+                score = 1
+        elif question == "1A":
+            score = len(self.dataset) / 7
+            if score > 1:
+                score = 1
+        else:
+            score = len(self.dataset) / 8
+            if score > 1:
+                score = 1
         return score
 
     def get_embeddings(self, sentences):

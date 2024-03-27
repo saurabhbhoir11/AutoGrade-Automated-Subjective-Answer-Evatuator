@@ -6,7 +6,7 @@ import pprint
 class answerSeparator:
     def __init__(self):
         self.pattern = re.compile(r"Q(\d+)([A-Z])\s*(.*?)((?=Q\d[A-Z])|$)", re.DOTALL)
-        self.corrector = textCorrector.SpellingReplacer()
+        self.corrector = textCorrector.textCorrector()
 
     def parse_questions(self, text):
         questions = {}
@@ -47,7 +47,7 @@ Q3C Implement AND function using perceptron rule
 
 # if __name__ == "__main__":
 #     separator = answerSeparator()
-#     with open("text.txt", "r", encoding="utf-8") as file:
+#     with open("text.txt", "r", encoding="utf-8") as file:++
 #         text = file.read()
 #     text = text
 #     questions = separator.parse_questions(text)

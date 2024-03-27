@@ -1,199 +1,192 @@
-NNO.
+Q1A
+IOT and its characteristics -
+IOT is dynamic global network infrastructure with self-
+configuring capabilities that follow standard and inter
+communicable protocol where physical and virtual "Things"
+have identities, physical attributes, virtual identities
+and use intelligent interfaces and are integrated to
+information network and communicate with data associated
+with user and environment.
+Characteristics of IoT are① Dynamic & Self Adaptive: IOT devices have capability
+to dynamically adapt to changing contexts or
+environment and also take actions based on the
+environment
+2 Self Configuring: IoT devices have self-configuring
+capability by allowing large number of devices to
+connect to network and perform function based on it.
+③ Intercommunicable Protocol: IoT devices follow standard.
+intercommunicable protocol which allows devices to
+Communicate with other devices based on protocol
+④ Unique Identity: Each IoT devices have a unique
+identity and unique identifier like URI
+Integration into Information Network: IoT devices are
+Seamlessly integrated into information network which
+allows devices to exchange data between each other.
+Q1D
+Functional Blacks of IOT -
+APPLICATION
+Manage-
+SERVICE
+Security
+ment
+COMMUNICATION
+DEVICES
+① Application - It provides interface to JOT systems and
+provides control over system which user uses to
+view status and analysis the system
+③ Management - Management provides functions to
+manage the operations of the system.③ Service - It provides services like monitoring,
+analyzing, recovering system and publishing.
+④ Communication - It is used to establish communication
+between cloud server and client
+⑤ Security - It provides security mechanisms like
+authentication, data security, encryption etc to prevent
+theft or intrusion into the IOT System
+6 Devices - Devices provide Sensing and monitoring
+controls to extract information or data from outer
+environments.
 Q2B
-(begin answer for each question on a new page)
-IT and OT Responsibilities in IOT Reference Model:
-1. In the figure below, we can see that the IT and
-OT Responsibilities in IoT Reference Model are
-shown in the form of a stack of many layers.
-2. The upper layers of the stack represent the
-I work that IT does with respect to the newer IoT
-systems.
-3. The lower layers represent the responsibilities
-of OT with respect to the system.
-4. Earlier, IT mainly deals with storing, analysing,
-cleaning and processing the data that is collected.
-5. The collection of data, on the other hand, is
-done by physical devices and sensors present
-out in the environment.⑦Collection and.
-Processes
-Devices
-Application
-5 Data Aggregation.
-1 M
-↑
-IT Query Data
-Based at rest
-Not
-atrest real-time
-3 Data Accumulation
-OT Data Data Real-
-Time
-Based motion
-m
-Edge
-(Sensors)
-③Edge Computing
-②Connectivity.
-③Physical Devices
-and Sensors
-Figure - IT & OT Responsibilities in IoT Reference Model
-6. The model is divided into seven layers, all of
-various purposes.
-7. The 1st layer collects all the data, in
-real-time, from the physical environment.
-8. The second layer connects the physical layer
-to the internet.
-9. Since, the data that is being collected can be
-extremely huge in quantity, it is temporarily
-stored and then slowly small quantities of
-data is sendt to the IT layers.
-10. This is done because the real-time data is
-huge and the processors and servers at the
-IT end would not be able to take that
-amount of load.
-11. This is why the OT end of the stack has
-data in motion and the IT end has data TA
-at rest.
-eg.
-12. After the data is sent received by the
-servers, it is analysed. For 1 A weather
-sensory sends the #wco current weather
-conditions to the server
-+
-in turn the
-server processes the data and uses it
-to make a weather forecasting application.Q3A
-www.payo)
-RFID:
-1. RFID refers to Radio Frequency Identification.
-2. It consists of a tag that is
-of an integrated circuit and
-made up
-an antenna.
-3. Another important module of the system is
-the reader.
-4. The tag (also known as transponder) is
-attached to the object that is being identified.
-5. The reader queries the tag be by sending
-Radio Frequency (RF) waves to identify it.
-6. RFIDs are made using multiple frequencies,
-namely; low frequency, high frequency,
-ultra high frequency, microwaves frequency, etc
-7. Low frequency (LF) RFIDS were deployed
-first for high-value, short-range industrial
-appliances and car immobilizer.
-8. Low frequency REID, have low data ranges
-and low data rates.
-9. High frequency RFIDs have high data rates
-and longer data ranges.
-10. Ultra High frequency RFIDs have even higher
-data = ranges and data rates but they cannot
-be used near metallic objects, water and
-human bodies.
-11. Principle of RFID:
-voltage
-A copper coll of is attached to a power sources
-and due to the impedance it experiences,
-a voltage is developed accross its terminals.
-We can attach a capacitor parallel to this
-coil to increase its voltage. We will call
-this the primary coil. Now, we bring another
-copper coil near the primary coll. This is the
-secondary coil. The secondary coil experiences.
-an emf from the primary coill and hence,
-a voltage developed accross its terminals.
-We connect a load resistor to thesecondary coil and current starts
-I to flow in the secondary coil. This
-flow of current results in the primary
-coll experiencing a back emf
-(electromotive
-force). This is how wt we can see
-find what device is attached to the
-secondary coll, by measuring the voltage
-across the primary coil.
-Primary
-Secondary
-vis
-Transformer
-Fulll
-Load
-resistor
-12. Applications of RFID in IOT !
-a) Fast Tags.
-: Government uses RFIDs to attached
-to cars in order to pay tolls, instead
-of the old way by stopping
-b) Libraries : Books are attached with RFIDS
-to make it easier to keep and inventory
-e of books and to find their information
-easily.
-c) Identification & Tracking: RFIDs can be
-attached to animals in order to keep
-track of them.
-aQ1C
-(Begin answer for each question on a new page)
-• Smart Object with reference to IOT:
-Tiny Low Power
-Computer
-Sensors
-Actuator
-сри
-Memory
-•Communication
-devices
--Power Supply
-Figure-Smart object # and its
-Components
-A smart object is an object that can
-all the jobs like collecting data, performing
-actions, storing data, communicating with
-other devices, etc.
-2. A smart object consists of a the
-following:
-eg:
-а
-a) Sensors :- These help in collecting data
-from the object's environments. For
-sensor for an automated car would be
-the odometer, etc
-b) Actuators 1- These perform physical tasks
-that they are instructed to do.
-c) Communication devices :- These communicate
-with other devices to get instructions and
-send data.
-d) Power Supply:- This is to supply power
-for performing all the tasks.Q1A
-IOT is defined as the techology where
-physical or virtual "things" have identities.
-physical attributes and virtual personalities
-and that they work being the standard
-and interoperable communication protocols.
-Characteristics of IOT :
-a) Adaptability:
-(b) Interoperable:
-(c) Communication:
-d) Network
-based on
-Q2D
-Security as a driver behind network
-architecture.
-1. Security is a non-negotiable part
-of any IT infrastructure..
-2. Security experts go to great lengths
-to keep their systems, servers and
-networks secure from malicious
-attacks.
-3. But in case of IoT devices, security
-poses a great threat.
-4. This is because the IoT devices not
-only require virtual security but also
-physical security as the sensors, etc) are
-present out in the environment.+
-Q3C
-STARI WOREEIRO BENE
-(Begin answer for each question on a new page)
-Bluetooth standard In connection with
-IOT:
-1. Bluetooth is a low energy communication
-technology that also has low range (100 m).
-2.
+IT and OT Responsibilities in IOT
+7 Collaboration
+& Process
+⑥ Application
+Suery
+Data at Noreal-
+⑤ Data
+based rest time.
+Abstraction
+IT
+4 Data
+OT
+Accumulation
+(3)
+③ Edge
+Event
+Data in Realtime
+Computing
+based motion
+2 Connectivity.
+① Physical Device Sensors Actuator,
+& Controllers DevicesOT Responsibilites -
+From layer I to layer 4 are OT responsibilities.
+• Layer 1 - Physical Device & Controller ÷ These are things in
+IoT and OT is responsible to configuring these.
+devices into the network.
+• Layer 2- Connectivity: Connectivity deals with establishing
+network topologies, OT here figures out which
+topology would be suited according to the condition /
+environment.
+· Layer 3- Edge Computing: It deals with analysis of
+network, OT here figures out how the data routing
+can be done over faster networks
+• Layer 4 - Data Accumulation: Simply means storage of
+data, OT figures out how data can be stored and
+collected
+• The data in OT layers in always in motion and devices
+in these layers have capability to generate real time
+data at their own data rates.
+IT Responsibilites-
+From layer 4 to layer 7 are IT responsibilities
+· Layer 4- Data Accumulation: Storage management,
+IT here responsibile to relate data according to query
+· Layer 5- Data Abstraction: IT is responsible to
+deriving meaning information from collected data
+according to condition.
+• Layer 6 - Application: Reporting and Analysis, IT
+responsible to analyse the working IoT system
+and generate report based on it
+• Layer 7- Collaboration & Process: IT allows various users
+to connect to IoT system and work with it.
+• The data in IT layer is stable and not in real-time
+.: Both IT and OT are responsible to seamlessly carry out
+working of IoT Systems.Q2D
+Security as driver in IoT -
+• Cybercrimes and theft have become continously increasing
+in nowadays, so Security is very important task to
+protect the system.
+· The acquired data and information need to be secured
+and this will be done by IT department.
+• Security mechanisms need to implemented like authentication,
+encryption and intrusion detection with understanding of
+standard protocols and also take actions on the critical
+infrastructure
+able
+• For optimum Security System must be available identify and
+authenticate entities in service like gateways, roaming
+network and devices.
+• Security ensures that IOT Systems follows all security
+measures and protocols so that they cannot be damaged.
+Q3A
+RFID-
+Database
+RELD
+System
+Reader Antenna
+data
+Tag
+Power
+• Radio Frequency Identification Uses electromagnetic wireless.
+communication based on electromagnetic coupling of radio
+Frequency portion of electromagnetic induction / Spectrum -
+• RFID consist of 2 Components -
+- Reader
+- Jag
+• Tag is attached to the objects which uniquely identifies
+the object when it is powered on using reader
+antenna• Antenna / Reader is responsible to read the tag
+When brought closor to electromagnetic field, it reads
+the tag and sends data to the tag and uniquely identifier.
+it.
+• RFID operates at 3 band levels-
+- 12-5 KHz to 13.5 KHz Low Frequency Band
+- 13.56 MHz High Frequency Band
+- 860 to 920 Ultra High Frequency Band
+• The Low Frequency was deployed first in the market
+where products can operate at low frequency level
+- Next high frequeny was deployed and then ultra
+high frequency was deployed.
+• Applications
+- Hom. Smart Card
+- Fas
+Fastag
+- Example - Fastag
+It is a RFID device installed at highway toll plaze
+where when a car passes to the toll the reader
+identifies the tag attached on the car and then.
+if it uniquely identifies the tag then transcripts is
+done 1-e payment of toll is done.
+Smart Attendance
+In this student id card contains RFID tag, when
+student scans id card on scanner attached to the
+door the reader on the scanner uniquely identifies
+the student tag id and mark's attendance on the
+database
+moodle ID
+Q
+www wwww
+RFID tag
+Id Card
+F
+Reads
+Scanner
+Reader antema
+cloud
+Databare
+dataQ3C
+Bluetooth BLE
+• Bluetooth Low Level Energy operates communication at
+low level devices.
+- Jet The BLE RF offers manufactures significant amount
+of flexibility to design devices that use BLE or
+design devices that satisfy the required condition.
+• BIE Supports multiple topologies like peer-to-peer,
+mesh tapology.
+BLE ensures that standard Bluetooth protocols and
+requirements are followed by BLE devices.
+• Example-
+Health Monitoring using Smart watch. were
+we can connect our mobile and smart watch with BLE and
+interface of health monitoring can be visible on the
+mobile interface. BLE allows Seamless connectivity with
+Smart phones.
+Home automation

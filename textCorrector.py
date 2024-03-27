@@ -3,6 +3,7 @@ from nltk.metrics import edit_distance
 import enchant
 import pprint
 from deepmultilingualpunctuation import PunctuationModel
+
 # from autocorrect import Speller
 
 # spell = Speller(lang='en')
@@ -77,11 +78,14 @@ c} Identification & Tracking: RFIDs can be
 attached to animals in order to keep
 track of them.
 """
-class SpellingReplacer:
-    def __init__(self, dict_name='en_GB', max_dist=2):
-        self.spell_dict = enchant.Dict(dict_name)
-        self.max_dist = max_dist
-        # self.model = PunctuationModel()
+
+
+class textCorrector:
+    def __init__(self, dict_name="en_GB", max_dist=2):
+        # self.spell_dict = enchant.Dict(dict_name)
+        # self.spell_dict = enchant.DictWithPWL("en_GB", "custom_dict.txt")
+        # self.max_dist = max_dist
+        self.model = PunctuationModel()
         # self.spell_dict = Speller(lang='en')
 
     def replace(self, word):
@@ -96,16 +100,17 @@ class SpellingReplacer:
         # return self.spell_dict(word)
 
     def replace_in_string(self, input_string):
-        input_string = re.sub(r'(\d+\.|\w\)|\w\}|\w])\s*', '', input_string)
-        output_string = ''
-        for word in input_string.split():
-            output_string += self.replace(word) + ' '
-        # output_string = self.model.restore_punctuation(output_string)
+        input_string = re.sub(r"(\d+\.|\w\)|\w\}|\w])\s*", "", input_string)
+        output_string = input_string
+        # for word in input_string.split():
+        #     output_string += self.replace(word) + " "
+        output_string = self.model.restore_punctuation(output_string)
         return output_string.strip()
+
 
 # Remove numbering and bullet points
 # if __name__ == "__main__":
-#     replacer = SpellingReplacer()
+#     replacer =  textCorrector()
 #     corrected_string = replacer.replace_in_string(input_text)
 #     pprint.pprint(corrected_string)
 
