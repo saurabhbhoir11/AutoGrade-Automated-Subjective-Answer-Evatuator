@@ -9,7 +9,7 @@ import keywordsExtractor
 import scoreGenerator
 import answerSeparator
 import numpy as np
-import pandas as pd
+import pd_test as pd
 import re
 
 app = Flask(__name__)

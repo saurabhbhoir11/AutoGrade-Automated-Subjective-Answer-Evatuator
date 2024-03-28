@@ -1,17 +1,17 @@
 import use
 import keywordsExtractor
 import numpy as np
-import pandas as pd
+import pd_test as pd
 
 
 class scoreGenerator:
     def __init__(self):
         self.use = use.USE()
         self.keywordsExtractor = keywordsExtractor.keyWords()
-        self.score = 0
-        self.result = {}
 
     def generateScore(self, studentResponse, answerKey):
+        result = {}
+        score = 0
         for key in studentResponse:
             question = key
             answer = answerKey[key]
@@ -20,9 +20,9 @@ class scoreGenerator:
             keyScore = self.keywordsExtractor.extract_keywords(studentAnswer, answer, question)
             simScore = 0.85 * simScore
             keyScore = 0.15 * keyScore
-            self.score = simScore + keyScore
-            self.result[question] = self.score
-        return self.result
+            score = simScore + keyScore
+            result[question] = score
+        return result
 
     def getEmbeddings(self, sentences):
         for key in sentences:

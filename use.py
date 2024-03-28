@@ -230,22 +230,23 @@ class USE:
         max_values = np.max(similarity_scores, axis=1)
         max_indices = np.argmax(similarity_scores, axis=1)
 
-
         for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
-            if max_val > 0.4:
+            if max_val > 0.5:
                 self.dataset.add(max_idx)
-        print(question)
-        print(self.dataset)
+        # print(question)
+        # print(self.dataset)
+        length = min(len(self.dataset), len(paragraph1_sentences))
+        # length = len(self.dataset)
         if question in ["2A", "2B", "3A", "3B"]:
-            score = len(self.dataset) / 13
+            score = length / 15
             if score > 1:
                 score = 1
         elif question == "1A":
-            score = len(self.dataset) / 7
+            score = length / 7
             if score > 1:
                 score = 1
         else:
-            score = len(self.dataset) / 8
+            score = length / 8
             if score > 1:
                 score = 1
         return score
@@ -253,6 +254,7 @@ class USE:
     def get_embeddings(self, sentences):
         embeddings = self.use_model(sentences)
         return embeddings
+
 
 # use = USE()
 # print(use.get_similarity_score(paragraph1, paragraph2))

@@ -3,22 +3,15 @@ import answerSeparator
 import math
 import textExtractor
 import keywordsExtractor
-
-# import pandas as pd
+import pandas as pd
+import os
 import time
-import pprint
 
-
-start = time.time()
 
 textExtractor = textExtractor.textExtractor()
 separator = answerSeparator.answerSeparator()
 score = scoreGenerator.scoreGenerator()
 keywordsExtractor = keywordsExtractor.keyWords()
-
-load = time.time()
-
-print(load - start)
 
 
 # with open("text.txt", "r", encoding="utf-8") as file:
@@ -31,34 +24,45 @@ answers = separator.parse_questions(answers)
 # with open("text.txt", "r", encoding="utf-8") as file:
 #     text = file.read()
 
-start = load
-load = time.time()
-print(load - start)
 
-filename = "D:/papers/35_36.pdf"
+def getScore(filename):
+    text = textExtractor.extractText(filename)
 
-text = textExtractor.extractText(filename)
+    text = separator.parse_questions(text)
 
-text = separator.parse_questions(text)
+    solution = score.generateScore(text, answers)
 
-start = load
-load = time.time()
-print(load - start)
+    total = 0
 
-solution = score.generateScore(text, answers)
+    for key in solution:
+        if key in ["2A", "2B", "3A", "3B"]:
+            solution[key] = math.ceil(solution[key] * 10)
+        else:
+            solution[key] = math.ceil(solution[key] * 5)
+        total += solution[key]
+    print(solution)
+    return total
 
-total = 0
 
-for key in solution:
-    if key in ["2A", "2B", "3A", "3B"]:
-        solution[key] = math.ceil(solution[key] * 10)
-    else:
-        solution[key] = math.ceil(solution[key] * 5)
-    total += solution[key]
-pprint.pprint(solution)
-pprint.pprint(total)
-end = time.time()
-print(end - load)
+# text = textExtractor.extractText(filename)
+#
+# text = separator.parse_questions(text)
+#
+#
+# print(load - start)
+#
+# solution = score.generateScore(text, answers)
+#
+# total = 0
+#
+# for key in solution:
+#     if key in ["2A", "2B", "3A", "3B"]:
+#         solution[key] = math.ceil(solution[key] * 10)
+#     else:
+#         solution[key] = math.ceil(solution[key] * 5)
+#     total += solution[key]
+# pprint.pprint(solution)
+# pprint.pprint(total)
 
 
 # def words_to_myspell(words, filename):
@@ -73,3 +77,29 @@ print(end - load)
 #
 # # Convert the words to MySpell format and write to a file
 # words_to_myspell(words_to_convert.split(), "custom_dict.txt")
+
+dirName = "D:/papers/"
+
+data = pd.DataFrame(columns=["RollNo", "Actual", "Predicted", "Difference"])
+start = time.time()
+for file in os.listdir(dirName):
+    if file.endswith(".pdf"):
+        filepath = os.path.join(dirName, file)
+        predicted = getScore(filepath)
+        filename = os.path.splitext(file)[0]
+        rollno = filename.split("_")[0]
+        actual = filename.split("_")[1]
+        difference = abs(int(actual) - predicted)
+        data = data._append(
+            {
+                "RollNo": rollno,
+                "Actual": actual,
+                "Predicted": predicted,
+                "Difference": difference,
+            },
+            ignore_index=True,
+        )
+        print(time.time() - start)
+        start = time.time()
+
+print(data)
