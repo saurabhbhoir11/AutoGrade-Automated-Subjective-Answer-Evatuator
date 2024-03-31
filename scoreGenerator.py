@@ -1,7 +1,6 @@
-import use
-import keywordsExtractor
 import numpy as np
-import pd_test as pd
+import keywordsExtractor
+import use
 
 
 class scoreGenerator:
