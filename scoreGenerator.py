@@ -15,11 +15,12 @@ class scoreGenerator:
             question = key
             answer = answerKey[key]
             studentAnswer = studentResponse[key]
-            simScore = self.use.get_similarity_score(studentAnswer, answer, question)
-            keyScore = self.keywordsExtractor.extract_keywords(studentAnswer, answer, question)
-            simScore = 0.85 * simScore
-            keyScore = 0.15 * keyScore
+            simScore = self.use.get_similarity_score(studentAnswer, answer[0], question)
+            keyScore = self.keywordsExtractor.extract_keywords(studentAnswer, answer[1], question)
+            simScore = 0.80 * simScore
+            keyScore = 0.20 * keyScore
             score = simScore + keyScore
+            print((simScore, keyScore))
             result[question] = score
         return result
 

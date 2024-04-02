@@ -289,7 +289,7 @@ IoT Requirement: IoT networks may need to support legacy devices with older Blue
 Conclusion for Bluetooth Standard in IoT:
 Bluetooth technology, particularly Bluetooth Low Energy (BLE), offers several advantages for IoT applications, including low power consumption, security features, and compatibility with legacy devices. However, it may face challenges in scalability and data throughput compared to other protocols like Zigbee. Therefore, while Bluetooth is suitable for certain IoT deployments, its suitability depends on specific application requirements such as scale, security, and data transmission rates.
 
-Q4D
+Q3D
 Analysis of LTE (4G) Standard in Connection with IoT Network Architecture Requirements:
 Scale:
 LTE (4G): LTE networks can support millions of connected devices per square kilometer, making them suitable for large-scale IoT deployments.

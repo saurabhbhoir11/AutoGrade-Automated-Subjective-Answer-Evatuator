@@ -1,5 +1,6 @@
 import re
 import textCorrector
+import keywordsExtractor
 import pprint
 
 
@@ -19,6 +20,21 @@ class answerSeparator:
             question_key = f"{question_num}{sub_question}"
             sub_question_text = self.corrector.replace_in_string(sub_question_text)
             questions[question_key] = sub_question_text
+        return questions
+
+    def parse_answers(self, text):
+        extractor = keywordsExtractor.keyWords()
+        questions = {}
+        self.text = text
+        matches = self.pattern.findall(self.text)
+        for match in matches:
+            question_num = match[0]
+            sub_question = match[1].strip()
+            sub_question_text = match[2].strip().replace("(Begin answer for each question on a new page)", "")
+            question_key = f"{question_num}{sub_question}"
+            sub_question_text = self.corrector.replace_in_string(sub_question_text)
+            keywords = extractor.get_keywords(sub_question_text)
+            questions[question_key] = (sub_question_text, keywords)
         return questions
 
 

@@ -1,6 +1,3 @@
-import tensorflow as tf
-import numpy as np
-from keybert import KeyBERT
 import yake
 
 # saved_dir = "USE"
@@ -146,26 +143,24 @@ class keyWords:
         # self.kw_model = KeyBERT(use_model)
         self.kw_model = yake.KeywordExtractor()
 
-    def extract_keywords(self, paragraph1, paragraph2, question):
-        self.paragraph1 = paragraph1
-        self.paragraph2 = paragraph2
+    def extract_keywords(self, paragraph1, answer, question):
         # kw1 = self.kw_model.extract_keywords(
         #     self.paragraph1, keyphrase_ngram_range=(0, 3), top_n=20, diversity=0.8
         # )
         # kw2 = self.kw_model.extract_keywords(
         #     self.paragraph2, keyphrase_ngram_range=(0, 3), top_n=20, diversity=0.8
         # )
-        kw1 = self.kw_model.extract_keywords(self.paragraph1)
-        kw2 = self.kw_model.extract_keywords(self.paragraph2)
-        keywords1 = set(i[0].lower() for i in kw1)
-        keywords2 = set(i[0].lower() for i in kw2)
-        common_keywords = keywords1.intersection(keywords2)
+        paragraph1 = paragraph1.lower()
+        count = 0
+        for phrase in answer:
+            if phrase in paragraph1:
+                count += 1
         if question in ["2A", "2B", "3A", "3B"]:
-            score = len(common_keywords) / 6
+            score = count / 10
             if score > 1:
                 score = 1
         else:
-            score = len(common_keywords) / 4
+            score = count / 5
             if score > 1:
                 score = 1
         return score

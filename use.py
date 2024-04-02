@@ -228,26 +228,28 @@ class USE:
         max_indices = np.argmax(similarity_scores, axis=1)
 
         for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
-            if max_val > 0.3:
+            if max_val > 0.30:
                 dataset.add((max_idx, max_val))
-        # print(question)
+        print(question)
         print(dataset)
-        if (len(dataset) - len(paragraph1_sentences)) > 4:
-            length = len(dataset)
-        else:
+        print(f"Length of dataset: {len(dataset)}, Length of paragraph1: {len(paragraph1_sentences)}")
+        if (len(dataset) - len(paragraph1_sentences)) > 1:
             length = len(paragraph1_sentences)
-        # length = min(len(self.dataset), len(paragraph1_sentences))
-        # length = len(self.dataset)
+        else:
+            length = len(dataset)
         if question in ["2A", "2B", "3A", "3B"]:
             score = length / 14
+            print(f"1, {score}")
             if score > 1:
                 score = 1
-        elif question == "1A":
-            score = length / 7
-            if score > 1:
-                score = 1
+        # elif question == "1A":
+        #     score = length / 7
+        #     print(f"2, {score}")
+        #     if score > 1:
+        #         score = 1
         else:
-            score = length / 8
+            score = length / 7
+            print(f"3, {score}")
             if score > 1:
                 score = 1
         return score

@@ -21,7 +21,7 @@ keywordsExtractor = keywordsExtractor.keyWords()
 with open("answers.txt", "r", encoding="utf-8") as file:
     answers = file.read()
 
-answers = separator.parse_questions(answers)
+answers = separator.parse_answers(answers)
 # with open("text.txt", "r", encoding="utf-8") as file:
 #     text = file.read()
 
@@ -45,34 +45,34 @@ def getScore(filename):
     return total
 
 
-# total = getScore("D:/papers/09_39.pdf")
+total = getScore("C:/Users/hp/Downloads/papers/64_15.pdf")
+
+
+pprint.pprint(total)
+
+
+# dirName = "D:/papers/"
 #
+# data = pd.DataFrame(columns=["RollNo", "Actual", "Predicted", "Difference"])
+# start = time.time()
+# for file in os.listdir(dirName):
+#     if file.endswith(".pdf"):
+#         filepath = os.path.join(dirName, file)
+#         predicted = getScore(filepath)
+#         filename = os.path.splitext(file)[0]
+#         rollno = filename.split("_")[0]
+#         actual = filename.split("_")[1]
+#         difference = abs(int(actual) - predicted)
+#         data = data._append(
+#             {
+#                 "RollNo": rollno,
+#                 "Actual": actual,
+#                 "Predicted": predicted,
+#                 "Difference": difference,
+#             },
+#             ignore_index=True,
+#         )
+#         print(time.time() - start)
+#         start = time.time()
 #
-# pprint.pprint(total)
-
-
-dirName = "D:/papers/"
-
-data = pd.DataFrame(columns=["RollNo", "Actual", "Predicted", "Difference"])
-start = time.time()
-for file in os.listdir(dirName):
-    if file.endswith(".pdf"):
-        filepath = os.path.join(dirName, file)
-        predicted = getScore(filepath)
-        filename = os.path.splitext(file)[0]
-        rollno = filename.split("_")[0]
-        actual = filename.split("_")[1]
-        difference = abs(int(actual) - predicted)
-        data = data._append(
-            {
-                "RollNo": rollno,
-                "Actual": actual,
-                "Predicted": predicted,
-                "Difference": difference,
-            },
-            ignore_index=True,
-        )
-        print(time.time() - start)
-        start = time.time()
-
-print(data)
+# print(data)
