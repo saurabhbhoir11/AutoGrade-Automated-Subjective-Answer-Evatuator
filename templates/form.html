@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AutoGrade - Evaluate Answer Sheets</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f3f5f7;
+        }
+        h3 {
+            color: #17a2b8;
+            margin-block: 20px;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="file"] {
+            border-radius: 5px;
+            border: 1px solid #cccccc;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: #17a2b8;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #1598a9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3 class="text-center">AutoGrade</h3>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <input type="text" class="form-control" name="department" required>
+            </div>
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <input type="text" class="form-control" name="year" required>
+            </div>
+            <div class="form-group">
+                <label for="rollno">Roll No:</label>
+                <input type="text" class="form-control" name="rollno" required>
+            </div>
+            <div class="form-group">
+                <label for="division">Division:</label>
+                <input type="text" class="form-control" name="division" required>
+            </div>
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" class="form-control" name="subject" required>
+            </div>
+            <div class="form-group">
+                <label for="student_answers">Student Answer Sheet (PDF):</label>
+                <input type="file" class="form-control-file" name="student_answers" required>
+            </div>
+            <div class="form-group">
+                <label for="model_answers">Model Answer Sheet (PDF):</label>
+                <input type="file" class="form-control-file" name="model_answers" required>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Upload">
+        </form>
+    </div>
+</body>
+</html>

@@ -45,7 +45,7 @@ def getScore(filename):
     return total
 
 
-total = getScore("C:/Users/hp/Downloads/papers/64_15.pdf")
+total = getScore("C:/Users/SUYASH BAGWE/Projects/AutoGrade/Student_Paper/23_28.pdf")
 
 
 pprint.pprint(total)
