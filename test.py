@@ -6,7 +6,7 @@ import keywordsExtractor
 import pandas as pd
 import os
 import time
-import pprint
+from pprint import pprint
 
 
 textExtractor = textExtractor.textExtractor()
@@ -27,8 +27,9 @@ answers = separator.parse_answers(answers)
 
 
 def getScore(filename):
-    text = textExtractor.extractText(filename)
-
+    # text = textExtractor.extractText(filename)
+    with open(filename, "r", encoding="utf-8") as file:
+        text = file.read()
     text = separator.parse_questions(text)
 
     solution = score.generateScore(text, answers)
@@ -45,34 +46,49 @@ def getScore(filename):
     return total
 
 
-total = getScore("C:/Users/SUYASH BAGWE/Projects/AutoGrade/Student_Paper/23_28.pdf")
-
-
-pprint.pprint(total)
-
-
-# dirName = "D:/papers/"
+# total = getScore("D:/papers/35_36.pdf")
 #
-# data = pd.DataFrame(columns=["RollNo", "Actual", "Predicted", "Difference"])
-# start = time.time()
-# for file in os.listdir(dirName):
-#     if file.endswith(".pdf"):
-#         filepath = os.path.join(dirName, file)
-#         predicted = getScore(filepath)
-#         filename = os.path.splitext(file)[0]
-#         rollno = filename.split("_")[0]
-#         actual = filename.split("_")[1]
-#         difference = abs(int(actual) - predicted)
-#         data = data._append(
-#             {
-#                 "RollNo": rollno,
-#                 "Actual": actual,
-#                 "Predicted": predicted,
-#                 "Difference": difference,
-#             },
-#             ignore_index=True,
-#         )
-#         print(time.time() - start)
-#         start = time.time()
 #
-# print(data)
+# pprint(total)
+
+
+dirName = "D:/output/"
+
+data = pd.DataFrame(columns=["RollNo", "Actual", "Predicted", "Difference", "Absolute Difference"])
+start = time.time()
+temp = start
+val = 0
+absVal = 0
+count = 0
+for file in os.listdir(dirName):
+    if file.endswith(".txt"):
+        filepath = os.path.join(dirName, file)
+        predicted = getScore(filepath)
+        filename = os.path.splitext(file)[0]
+        print(filename)
+        rollno = filename.split("_")[0]
+        actual = filename.split("_")[1]
+        difference = int(actual) - predicted
+        absDifference = abs(int(actual) - predicted)
+        val = val + difference
+        absVal = absVal + absDifference
+        data = data._append(
+            {
+                "RollNo": rollno,
+                "Actual": actual,
+                "Predicted": predicted,
+                "Difference": difference,
+                "Absolute Difference": absDifference,
+            },
+            ignore_index=True,
+        )
+        print(time.time() - temp)
+        temp = time.time()
+        count += 1
+
+avg = val / count
+absAvg = absVal / count
+print(absAvg)
+print(avg)
+pprint(data)
+print(time.time() - start)

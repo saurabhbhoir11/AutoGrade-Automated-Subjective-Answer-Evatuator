@@ -10,7 +10,6 @@ class scoreGenerator:
 
     def generateScore(self, studentResponse, answerKey):
         result = {}
-        score = 0
         for key in studentResponse:
             question = key
             answer = answerKey[key]
@@ -20,7 +19,7 @@ class scoreGenerator:
             simScore = 0.80 * simScore
             keyScore = 0.20 * keyScore
             score = simScore + keyScore
-            print((simScore, keyScore))
+            print(f"Question: {question} Similarity Score: {simScore} Keyword Score: {keyScore} Total Score: {score}")
             result[question] = score
         return result
 

@@ -204,7 +204,7 @@ class USE:
         self.use_model = tf.saved_model.load(saved_dir)
 
     def get_similarity_score(self, paragraph1, paragraph2, question):
-        dataset = set()
+        dataset = []
         paragraph1_sentences = [
             sentence.strip() for sentence in paragraph1.split(".") if sentence
         ]
@@ -228,17 +228,17 @@ class USE:
         max_indices = np.argmax(similarity_scores, axis=1)
 
         for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
-            if max_val > 0.30:
-                dataset.add((max_idx, max_val))
-        print(question)
-        print(dataset)
+            if max_val > 0.33:
+                dataset.append(max_idx)
+        # print(question)
+        # print(dataset)
         print(f"Length of dataset: {len(dataset)}, Length of paragraph1: {len(paragraph1_sentences)}")
-        if (len(dataset) - len(paragraph1_sentences)) > 1:
+        if (len(dataset) - len(paragraph1_sentences)) > 2:
             length = len(paragraph1_sentences)
         else:
             length = len(dataset)
         if question in ["2A", "2B", "3A", "3B"]:
-            score = length / 14
+            score = length / 15
             print(f"1, {score}")
             if score > 1:
                 score = 1
@@ -248,7 +248,7 @@ class USE:
         #     if score > 1:
         #         score = 1
         else:
-            score = length / 7
+            score = length / 8
             print(f"3, {score}")
             if score > 1:
                 score = 1

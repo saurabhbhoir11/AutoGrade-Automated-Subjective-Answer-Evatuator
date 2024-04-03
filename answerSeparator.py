@@ -18,6 +18,7 @@ class answerSeparator:
             sub_question = match[1].strip()
             sub_question_text = match[2].strip().replace("(Begin answer for each question on a new page)", "")
             question_key = f"{question_num}{sub_question}"
+
             sub_question_text = self.corrector.replace_in_string(sub_question_text)
             questions[question_key] = sub_question_text
         return questions

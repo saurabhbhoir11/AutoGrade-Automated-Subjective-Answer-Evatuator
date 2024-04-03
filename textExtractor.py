@@ -2,6 +2,7 @@ from pdf2image import convert_from_path
 from google.cloud import vision_v1p4beta1 as vision  # Adjust the import statement
 import os
 import preprocesor
+import time
 
 class textExtractor:
     def __init__(self):
@@ -43,9 +44,17 @@ class textExtractor:
 
 
 # if __name__ == "__main__":
+#     dirName = "D:/papers/"
+#     outputdir = "D:/output/"
 #     extractor = textExtractor()
-#     text = extractor.extractText("D:/papers/09_39.pdf")
-#     with open("text.txt", "w", encoding="utf-8") as file:
-#         file.write(text)
-#     print(text)
-#     extractor.extractText("sample_docs/Doc2.pdf")
+#     start = time.time()
+#     for file in os.listdir(dirName):
+#         if file.endswith(".pdf"):
+#             filepath = os.path.join(dirName, file)
+#             predicted = extractor.extractText(filepath)
+#             filename = os.path.splitext(file)[0]
+#             outputfile = os.path.join(outputdir, f"{filename}.txt")
+#             print(f"Writing to {outputfile}")
+#             with open(outputfile, "w", encoding="utf-8") as file:
+#                 file.write(predicted)
+#     print(f"Time taken: {time.time() - start} seconds")
