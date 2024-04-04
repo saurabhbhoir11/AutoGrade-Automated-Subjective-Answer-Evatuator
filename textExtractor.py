@@ -44,8 +44,9 @@ class textExtractor:
 
 
 # if __name__ == "__main__":
-#     dirName = "D:/papers/"
-#     outputdir = "D:/output/"
+#     dirName = "C:/Users/hp/Downloads/Feem/Papers/"
+#     outputdir = "C:/Users/hp/Downloads/Feem/data/output/"
+#
 #     extractor = textExtractor()
 #     start = time.time()
 #     for file in os.listdir(dirName):

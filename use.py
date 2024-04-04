@@ -228,7 +228,7 @@ class USE:
         max_indices = np.argmax(similarity_scores, axis=1)
 
         for i, (max_val, max_idx) in enumerate(zip(max_values, max_indices)):
-            if max_val > 0.33:
+            if max_val > 0.35:
                 dataset.append(max_idx)
         # print(question)
         # print(dataset)

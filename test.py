@@ -43,6 +43,7 @@ def getScore(filename):
             solution[key] = math.ceil(solution[key] * 5)
         total += solution[key]
     print(solution)
+    print(f"Predicted score : {total}")
     return total
 
 
@@ -52,7 +53,7 @@ def getScore(filename):
 # pprint(total)
 
 
-dirName = "D:/output/"
+dirName = "C:/Users/hp/Downloads/Feem/data/output/"
 
 data = pd.DataFrame(columns=["RollNo", "Actual", "Predicted", "Difference", "Absolute Difference"])
 start = time.time()
@@ -62,12 +63,16 @@ absVal = 0
 count = 0
 for file in os.listdir(dirName):
     if file.endswith(".txt"):
+        print()
+        print()
+        print(file)
         filepath = os.path.join(dirName, file)
         predicted = getScore(filepath)
         filename = os.path.splitext(file)[0]
         print(filename)
         rollno = filename.split("_")[0]
         actual = filename.split("_")[1]
+        print(f"Actual Score : {actual}")
         difference = int(actual) - predicted
         absDifference = abs(int(actual) - predicted)
         val = val + difference
@@ -82,7 +87,7 @@ for file in os.listdir(dirName):
             },
             ignore_index=True,
         )
-        print(time.time() - temp)
+        print(f"Time taken : {time.time() - temp}")
         temp = time.time()
         count += 1
 
