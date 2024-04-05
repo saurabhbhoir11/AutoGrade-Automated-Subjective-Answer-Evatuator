@@ -1,86 +1,68 @@
+<!-- home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Information Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            font-weight: bold;
-        }
-        input[type="text"], select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <h2>Student Information Form</h2>
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" placeholder="Enter name">
-        </div>
-        <div class="form-group">
-            <label for="year">Year:</label>
-            <input type="text" id="year" placeholder="Enter year">
-        </div>
-        <div class="form-group">
-            <label for="department">Department:</label>
-            <input type="text" id="department" placeholder="Enter department">
-        </div>
-        <div class="form-group">
-            <label for="subject">Subject:</label>
-            <input type="text" id="subject" placeholder="Enter subject">
-        </div>
-        <button onclick="submitForm()">Submit</button>
+      <a class="navbar-brand" href="#">Admin Dashboard</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="active">
+            <a class="nav-link" href="home.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="exam.html">Exam</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="evaluation.html">Evaluation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="results.html">Result</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <script>
-        function submitForm() {
-            var name = document.getElementById("name").value;
-            var year = document.getElementById("year").value;
-            var department = document.getElementById("department").value;
-            var subject = document.getElementById("subject").value;
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 mt-5">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h3 class="text-center">Welcome to Admin Dashboard</h3>
+          </div>
+          <div class="card-body">
+            <p class="text-center">This is the home page of the admin dashboard.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            // Here you can perform further actions like sending the data to a server, validating, etc.
-            console.log("Name: " + name);
-            console.log("Year: " + year);
-            console.log("Department: " + department);
-            console.log("Subject: " + subject);
-        }
-    </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.getElementById("logoutBtn").addEventListener("click", function() {
+      var confirmLogout = confirm("Are you sure you want to logout?");
+      if (confirmLogout) {
+        // Redirect to logout page or perform logout actions
+        // For demonstration purposes, I'm redirecting to Google's homepage
+        window.location.href = "login.html";
+      }
+    });
+  </script>
 </body>
 </html>
-
