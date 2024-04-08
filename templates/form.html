@@ -4,9 +4,28 @@
     <title>AutoGrade - Evaluate Answer Sheets</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        body {
-            background-color: #f3f5f7;
-        }
+            body {
+      font-family: Arial, sans-serif;
+      /* background-color: darkslategrey; */
+    }
+.navbar {
+
+      width: 100vw;
+      height: 15vh;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: auto;
+    }
+.logo {
+      display: flex; /* updated */
+      align-items: center; /* updated */
+      margin-right: 2px;
+    }
+.logo img {
+      height: 3rem; /* adjust as needed */
+    }
         h3 {
             color: #17a2b8;
             margin-block: 20px;
@@ -41,6 +60,14 @@
     </style>
 </head>
 <body>
+  <div class="navbar">
+    <div class="logo">
+      <img src="{{url_for('static', filename = 'logo.png')}}" alt="Image 1 description">
+    </div>
+    <div class="header">
+      <h2>Image</h2>
+    </div>
+  </div>
     <div class="container">
         <h3 class="text-center">AutoGrade</h3>
         <form action="/upload" method="POST" enctype="multipart/form-data">
@@ -72,11 +99,7 @@
                 <label for="student_answers">Student Answer Sheet (PDF):</label>
                 <input type="file" class="form-control-file" name="student_answers" required>
             </div>
-            <div class="form-group">
-                <label for="model_answers">Model Answer Sheet (PDF):</label>
-                <input type="file" class="form-control-file" name="model_answers" required>
-            </div>
-            <input type="submit" class="btn btn-primary" value="Upload">
+            <input type="submit" class="btn btn-primary" value="Extract Text">
         </form>
     </div>
 </body>

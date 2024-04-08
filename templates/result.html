@@ -7,7 +7,7 @@
         body {
             background-color: #f3f5f7;
         }
-        h3 {
+        h1 {
             color: #17a2b8;
             margin-block: 20px;
         }
@@ -16,11 +16,39 @@
             font-weight: bold;
             color: #333333;
         }
+      .navbar {
+      display: fixed;
+      width: 100vw;
+      height: 15vh;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+    }
+
+    .logo img {
+      height: 3rem;
+    }
     </style>
 </head>
 <body>
+<div class="navbar">
+    <div class="logo">
+      <img src="{{url_for('static', filename = 'logo.png')}}" alt="Image 1 description">
+    </div>
+    <div class="header">
+      <h3>Result</h3>
+    </div>
+  </div>
     <div class="container">
-        <h3 class="text-center">AutoGrade</h3>
+        <h1 class="text-center">AutoGrade</h1>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <p>Name: {{ name }}</p>
@@ -29,7 +57,13 @@
                 <p>Roll No: {{ rollno }}</p>
                 <p>Division: {{ division }}</p>
                 <p>Subject: {{ subject }}</p>
-                <p>Score: {{ total }}</p>
+                <br>
+                <h1>Question wise answers</h1>
+                {% for score in scores %}
+                    <p>Question {{ score[0] }}: {{ score[1] }}</p>
+                {% endfor %}
+                <p style="font-size: 3em;">Score: {{ total }}</p>
+
             </div>
         </div>
     </div>

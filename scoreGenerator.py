@@ -10,18 +10,24 @@ class scoreGenerator:
 
     def generateScore(self, studentResponse, answerKey):
         result = {}
+        data = []
         for key in studentResponse:
             question = key
             answer = answerKey[key]
             studentAnswer = studentResponse[key]
-            simScore = self.use.get_similarity_score(studentAnswer, answer[0], question)
+            simScore, l1, l2 = self.use.get_similarity_score(studentAnswer, answer[0], question)
             keyScore = self.keywordsExtractor.extract_keywords(studentAnswer, answer[1], question)
             simScore = 0.80 * simScore
             keyScore = 0.20 * keyScore
             score = simScore + keyScore
+            ques = "Question: " + question
+            Sscore = "Similarity Score: " + str(simScore)
+            Kscore = "Keyword Score: " + str(keyScore)
+            Tscore = "Total Score: " + str(score)
+            data.append([ques,l1, l2, Sscore, Kscore, Tscore])
             print(f"Question: {question} Similarity Score: {simScore} Keyword Score: {keyScore} Total Score: {score}")
             result[question] = score
-        return result
+        return result, data
 
     def getEmbeddings(self, sentences):
         for key in sentences:

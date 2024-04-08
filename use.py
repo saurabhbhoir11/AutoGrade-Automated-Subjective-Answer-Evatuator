@@ -239,7 +239,6 @@ class USE:
             length = len(dataset)
         if question in ["2A", "2B", "3A", "3B"]:
             score = length / 15
-            print(f"1, {score}")
             if score > 1:
                 score = 1
         # elif question == "1A":
@@ -249,10 +248,9 @@ class USE:
         #         score = 1
         else:
             score = length / 8
-            print(f"3, {score}")
             if score > 1:
                 score = 1
-        return score
+        return score, len(dataset), len(paragraph1_sentences)
 
     def get_embeddings(self, sentences):
         embeddings = self.use_model(sentences)

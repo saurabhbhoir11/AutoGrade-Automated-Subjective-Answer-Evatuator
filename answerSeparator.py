@@ -16,7 +16,11 @@ class answerSeparator:
         for match in matches:
             question_num = match[0]
             sub_question = match[1].strip()
-            sub_question_text = match[2].strip().replace("(Begin answer for each question on a new page)", "")
+            sub_question_text = (
+                match[2]
+                .strip()
+                .replace("(Begin answer for each question on a new page)", "")
+            )
             question_key = f"{question_num}{sub_question}"
 
             sub_question_text = self.corrector.replace_in_string(sub_question_text)
@@ -31,7 +35,11 @@ class answerSeparator:
         for match in matches:
             question_num = match[0]
             sub_question = match[1].strip()
-            sub_question_text = match[2].strip().replace("(Begin answer for each question on a new page)", "")
+            sub_question_text = (
+                match[2]
+                .strip()
+                .replace("(Begin answer for each question on a new page)", "")
+            )
             question_key = f"{question_num}{sub_question}"
             sub_question_text = self.corrector.replace_in_string(sub_question_text)
             keywords = extractor.get_keywords(sub_question_text)
@@ -64,8 +72,13 @@ Q3C Implement AND function using perceptron rule
 
 # if __name__ == "__main__":
 #     separator = answerSeparator()
-#     with open("text.txt", "r", encoding="utf-8") as file:++
+#     with open("D:/output/09_39.txt", "r", encoding="utf-8") as file:
 #         text = file.read()
 #     text = text
 #     questions = separator.parse_questions(text)
-#     pprint.pprint(questions)
+#     with open("temp.txt", 'w', encoding="utf-8") as file:
+#         for key, paragraph in questions.items():
+#             sentences = paragraph.split('. ')  # Assuming sentences end with a period and space
+#             file.write(f"{key}\n")
+#             for sentence in sentences:
+#                 file.write(f"{sentence.strip()}\n")

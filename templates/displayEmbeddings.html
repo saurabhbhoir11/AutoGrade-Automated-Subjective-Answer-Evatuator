@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      width: 100vw;
+      height: 15vh;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+    }
+
+    .logo img {
+      height: 3rem;
+    }
+
+    /* .header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    } */
+
+    .container {
+      max-width: 800px;
+      margin: 10px auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .container h1 {
+      font-size: 2.5rem;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .container p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .button-container button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .button-container button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">
+      <img src="{{url_for('static', filename = 'logo.png')}}" alt="Image 1 description">
+    </div>
+    <div class="header">
+      <h2>Text Data</h2>
+    </div>
+  </div>
+  <div class="container">
+      {% for answer in display %}
+        <h1>Question {{ answer[0] }}</h1>
+        <p>Length of dataset: {{ answer[1] }}, <br> Length of paragraph1: {{ answer[2] }}<br>
+          {{ answer[0] }} <br>Similarity Score: {{ answer[3] }}<br> Keyword Score: {{ answer[4] }} <br>Total Score: {{ answer[5] }}</p><hr>
+      {% endfor %}
+    <div class="button-container">
+      <form method="POST">
+      <a href="{{url_for('results')}}" target="_blank">
+    <button>Display Results</button>
+      </a>
+        </form>
+    </div>
+  </div>
+</body>
+</html>

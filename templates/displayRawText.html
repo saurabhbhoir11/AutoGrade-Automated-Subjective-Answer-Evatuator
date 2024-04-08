@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      width: 100vw;
+      height: 15vh;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+    }
+
+    .logo img {
+      height: 3rem;
+    }
+
+
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .container h1 {
+      font-size: 2.5rem;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    .container p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .button-container button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .button-container button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">
+      <img src="{{url_for('static', filename = 'logo.png')}}" alt="Image 1 description">
+    </div>
+    <div class="header">
+      <h3>Text Data</h3>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Raw Text Data</h1>
+    <p>{{ text }}</p>
+    <div class="button-container">
+      <form method="POST">
+      <a href="{{url_for('display_separated_answers')}}" target="_blank">
+    <button>Display Separated Answers</button>
+      </a>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      /* background-color: darkslategrey; */
+    }
+.navbar {
+      width: 100vw;
+      height: 15vh;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: auto;
+    }
+.logo {
+      display: flex; /* updated */
+      align-items: center; /* updated */
+      margin-right: 2px;
+    }
+.logo img {
+      height: 3rem; /* adjust as needed */
+    }
+.image-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 20px auto;
+      padding: 30px 20px;
+      max-width: 800px;
+      background-color: #f4f4f4;
+    }
+.image-box {
+      flex: 0 0 auto;
+      margin: 10px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
+    }
+.image-box:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+.image-box img {
+      width: 100%;
+      height: auto;
+    }
+.button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+.button-container button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+.button-container button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">
+      <img src="{{url_for('static', filename = 'logo.png')}}" alt="Image 1 description">
+    </div>
+    <div class="header">
+      <h2>Image</h2>
+    </div>
+  </div>
+  <div class="image-container">
+    {% for image in images %}
+    <div class="image-box">
+      <img src="{{url_for('static', filename = image)}}" alt="Image 1 description">
+    </div>
+    {% endfor %}
+
+    <!-- Add more image boxes as needed -->
+  </div>
+  <div class="button-container">
+    <form method="POST">
+      <a href="{{url_for('display_thresholded')}}" target="_blank">
+    <button>Display Thresholded Images</button>
+      </a>
+    </form>
+  </div>
+</body>
+</html>
