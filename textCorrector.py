@@ -1,6 +1,8 @@
 import re
+
+# import enchant
 from nltk.metrics import edit_distance
-import enchant
+# import enchant
 import pprint
 from deepmultilingualpunctuation import PunctuationModel
 
@@ -81,32 +83,14 @@ track of them.
 
 
 class textCorrector:
-    def __init__(self, dict_name="en_GB", max_dist=2):
-        # self.spell_dict = enchant.Dict(dict_name)
-        # self.spell_dict = enchant.DictWithPWL("en_GB", "custom_dict.txt")
-        # self.max_dist = max_dist
+    def __init__(self):
         self.model = PunctuationModel()
-        # self.spell_dict = Speller(lang='en')
-
-    def replace(self, word):
-        if self.spell_dict.check(word):
-            return word
-        suggestions = self.spell_dict.suggest(word)
-
-        if suggestions and edit_distance(word, suggestions[0]) <= self.max_dist:
-            return suggestions[0]
-        else:
-            return word
-        # return self.spell_dict(word)
 
     def replace_in_string(self, input_string):
         input_string = re.sub(r"(\d+\.|\w\)|\w\}|\w])\s*", "", input_string)
         output_string = input_string
-        # for word in input_string.split():
-        #     output_string += self.replace(word) + " "
         output_string = self.model.restore_punctuation(output_string)
         return output_string.strip()
-
 
 # Remove numbering and bullet points
 # if __name__ == "__main__":
